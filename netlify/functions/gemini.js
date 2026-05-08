@@ -9,7 +9,8 @@ exports.handler = async function(event) {
     const contents = body.contents
 const response = await fetch(
   // MUDANÇA AQUI: de gemini-pro para gemini-1.0-pro
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${process.env.GEMINI_API_KEY_formula_comunicacao}`,
+  `https://generativelanguage.googleapis.com/v1beta/models/text-bison-001:generateContent?key=${process.env.GEMINI_API_KEY_formula_comunicacao}`
+`,
   {
     method: 'POST',
     headers: {
