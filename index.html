@@ -6,417 +6,151 @@
 <title>Fórmula da Comunicação</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap');
-
 :root {
-  --bg: #f5f0e8;
-  --bg2: #ede8df;
-  --ink: #1a1610;
-  --ink2: #4a4540;
-  --ink3: #8a8480;
-  --line: rgba(26,22,16,0.1);
-  --gold: #b8860b;
-  --gold-l: rgba(184,134,11,0.12);
-  --red: #c0392b;
-  --red-l: rgba(192,57,43,0.1);
-  --blue: #1a5276;
-  --blue-l: rgba(26,82,118,0.1);
-  --green: #1e6641;
-  --green-l: rgba(30,102,65,0.1);
-  --purple: #6c3483;
-  --purple-l: rgba(108,52,131,0.1);
-  --teal: #0e7a7a;
-  --teal-l: rgba(14,122,122,0.1);
-  --orange: #c0650a;
-  --orange-l: rgba(192,101,10,0.1);
+  --bg:#f5f0e8;--bg2:#ede8df;--ink:#1a1610;--ink2:#4a4540;--ink3:#8a8480;
+  --line:rgba(26,22,16,0.1);--gold:#b8860b;--gold-l:rgba(184,134,11,0.12);
+  --red:#c0392b;--blue:#1a5276;--green:#1e6641;--purple:#6c3483;
+  --teal:#0e7a7a;--orange:#c0650a;
 }
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Syne', sans-serif;
-  min-height: 100vh;
-}
-
-.header {
-  padding: 3rem 3rem 2rem;
-  border-bottom: 2px solid var(--ink);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.header-left h1 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 400;
-  line-height: 1;
-}
-.header-left h1 em { font-style: italic; color: var(--gold); }
-.header-left .version {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: var(--ink3);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-}
-.header-right { text-align: right; }
-.formula-display {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
-  color: var(--ink2);
-  line-height: 1.9;
-}
-.formula-display .fv { color: var(--gold); font-style: italic; font-weight: 700; }
-.formula-display .fo {
-  color: var(--ink3);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8em;
-  margin: 0 0.3em;
-}
-.formula-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.15em;
-  color: var(--ink3);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.tabs-bar {
-  display: flex;
-  border-bottom: 1px solid var(--line);
-  overflow-x: auto;
-  scrollbar-width: none;
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.tabs-bar::-webkit-scrollbar { display:none; }
-.tab-btn {
-  flex-shrink: 0;
-  padding: 1rem 1.5rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.tab-btn:hover { color: var(--ink); }
-.tab-btn.active {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-  background: var(--bg2);
-}
-
-.panel { display: none; padding: 2.5rem 3rem 4rem; }
-.panel.active { display: block; }
-
-.sec-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  color: var(--ink3);
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.sec-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-}
-
-.builder-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
-  align-items: start;
-}
-@media (max-width: 900px) { .builder-layout { grid-template-columns: 1fr; } }
-
-.builder-form { display: flex; flex-direction: column; gap: 1.25rem; }
-.bfield { display: flex; flex-direction: column; gap: 0.4rem; }
-.bfield-header { display: flex; align-items: baseline; gap: 0.6rem; }
-.bfield-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 600;
-}
-.bfield-key {
-  font-family: 'Instrument Serif', serif;
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--gold);
-}
-.bfield-hint {
-  font-size: 0.72rem;
-  color: var(--ink3);
-  line-height: 1.5;
-  margin-bottom: 0.2rem;
-}
-.bfield-optional {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.1em;
-  color: var(--ink3);
-  background: var(--bg2);
-  padding: 0.1rem 0.4rem;
-  border: 1px solid var(--line);
-}
-
-.bfield input, .bfield textarea, .bfield select {
-  background: var(--bg2);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  font-family: 'Syne', sans-serif;
-  font-size: 0.82rem;
-  padding: 0.65rem 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-  width: 100%;
-  resize: vertical;
-}
-.bfield input:focus, .bfield textarea:focus, .bfield select:focus { border-color: var(--gold); }
-.bfield textarea { min-height: 70px; }
-
-.chip-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.chip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.05em;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--line);
-  cursor: pointer;
-  color: var(--ink3);
-  background: var(--bg);
-  transition: all 0.15s;
-  user-select: none;
-}
-.chip:hover { border-color: var(--gold); color: var(--gold); }
-.chip.selected { background: var(--gold); border-color: var(--gold); color: #fff; }
-
-.arquetipos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 0.4rem;
-  margin-top: 0.4rem;
-}
-.arquetipo-card {
-  border: 1px solid var(--line);
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: all 0.15s;
-  background: var(--bg);
-}
-.arquetipo-card:hover { border-color: var(--gold); }
-.arquetipo-card.selected { background: var(--gold); border-color: var(--gold); color: #fff; }
-.arquetipo-card.selected .arq-desc { color: rgba(255,255,255,0.8); }
-.arq-nome { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.2rem; }
-.arq-desc { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--ink3); line-height: 1.4; }
-
-.build-btn {
-  margin-top: 0.5rem;
-  padding: 0.9rem 1.5rem;
-  background: var(--ink);
-  color: var(--bg);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  width: 100%;
-}
-.build-btn:hover { background: var(--gold); }
-.build-btn:active { transform: scale(0.98); }
-.build-btn:disabled { background: var(--ink3); cursor: not-allowed; }
-
-.builder-result { position: sticky; top: 80px; }
-.result-box {
-  background: var(--bg2);
-  border: 1px solid var(--line);
-  padding: 2rem;
-  min-height: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-.result-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  color: var(--ink3);
-  gap: 0.75rem;
-  text-align: center;
-}
-.result-empty-icon { font-size: 2.5rem; opacity: 0.3; }
-.result-empty-txt { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; }
-.result-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  gap: 1rem;
-  color: var(--ink3);
-}
-.spinner {
-  width: 28px; height: 28px;
-  border: 2px solid var(--line);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-txt { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--ink3); }
-
-.res-section { margin-bottom: 1.5rem; }
-.res-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  color: var(--ink3);
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.res-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-
-.sugestao-card { background: var(--bg); border: 1px solid var(--line); padding: 1.5rem; margin-bottom: 1rem; }
-.sugestao-card.rank-1 { border-left: 3px solid var(--gold); }
-.sugestao-card.rank-2 { border-left: 3px solid var(--ink3); }
-.sugestao-card.rank-3 { border-left: 3px solid var(--line); }
-.sug-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 1rem; }
-.sug-rank { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--gold); letter-spacing: 0.1em; }
-.sug-titulo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; font-style: italic; color: var(--ink); margin-bottom: 0.3rem; }
-.sug-formato { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--ink3); letter-spacing: 0.1em; }
-.sug-section { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
-.sug-section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
-.sug-section-content { font-size: 0.78rem; color: var(--ink2); line-height: 1.6; }
-.sug-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
-.sug-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; padding: 0.15rem 0.45rem; border: 1px solid var(--line); color: var(--ink3); }
-
-.gancho-box {
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.1rem;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1.5;
-  background: var(--bg);
-  border: 1px solid var(--gold);
-  border-left: 3px solid var(--gold);
-  padding: 1rem 1.25rem;
-}
-.roteiro-box { background: var(--bg); border: 1px solid var(--line); padding: 1.25rem; }
-.roteiro-phase { margin-bottom: 1rem; }
-.roteiro-phase:last-child { margin-bottom: 0; }
-.roteiro-phase-title { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
-.roteiro-phase-content { font-size: 0.8rem; line-height: 1.65; color: var(--ink2); border-left: 1px solid var(--gold-l); padding-left: 0.75rem; }
-
-.copy-btn {
-  margin-top: 1rem; padding: 0.6rem 1rem;
-  background: var(--bg2); border: 1px solid var(--line);
-  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  cursor: pointer; color: var(--ink3); transition: all 0.2s; width: 100%;
-}
-.copy-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-
-.formula-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 3rem;
-}
-.formula-cell { background: var(--bg); padding: 1.5rem; }
-.fc-var { font-family: 'Instrument Serif', serif; font-size: 2.5rem; font-style: italic; line-height: 1; margin-bottom: 0.5rem; }
-.fc-name { font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
-.fc-desc { font-size: 0.78rem; color: var(--ink3); line-height: 1.6; }
-
-.flow-row { display: flex; align-items: center; overflow-x: auto; gap: 0; padding: 1rem 0 2rem; scrollbar-width: thin; }
-.fnode { flex-shrink: 0; text-align: center; padding: 1.25rem 1rem; background: var(--bg2); border: 1px solid var(--line); min-width: 110px; transition: background 0.2s; }
-.fnode:hover { background: var(--bg); }
-.fnode-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-.fnode-name { font-size: 0.72rem; font-weight: 700; }
-.fnode-code { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: var(--ink3); margin-top: 0.2rem; }
-.farrow { flex-shrink: 0; width: 48px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.farrow-line { width: 100%; height: 1px; background: var(--ink3); }
-.farrow-head { font-size: 0.6rem; color: var(--ink3); }
-.farrow-lbl { font-family: 'JetBrains Mono', monospace; font-size: 0.5rem; color: var(--ink3); letter-spacing: 0.05em; }
-
-.formats-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-@media (max-width: 900px) { .formats-layout { grid-template-columns: 1fr; } }
-.format-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.format-row { background: var(--bg); display: grid; grid-template-columns: 2rem 1fr auto; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; cursor: pointer; transition: background 0.15s; }
-.format-row:hover { background: var(--bg2); }
-.format-row.selected { background: var(--ink); color: white; }
-.format-row.selected .fn { color: rgba(255,255,255,0.5); }
-.format-row.selected .fig-badge { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
-.format-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--ink3); }
-.format-name { font-size: 0.82rem; font-weight: 600; }
-.fn { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--ink3); }
-.fig-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; border: 1px solid var(--line); padding: 0.15rem 0.5rem; color: var(--ink3); white-space: nowrap; }
-.format-detail { position: sticky; top: 80px; background: var(--bg2); border: 1px solid var(--line); padding: 2rem; min-height: 300px; }
-.fd-num { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--ink3); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-.fd-title { font-family: 'Instrument Serif', serif; font-size: 1.8rem; font-style: italic; margin-bottom: 1rem; color: var(--ink); }
-.fd-desc { font-size: 0.82rem; line-height: 1.7; color: var(--ink2); margin-bottom: 1.5rem; border-left: 2px solid var(--gold); padding-left: 1rem; }
-.fd-row { margin-bottom: 1rem; }
-.fd-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--ink3); text-transform: uppercase; margin-bottom: 0.4rem; }
-.fd-value { font-size: 0.8rem; color: var(--ink); line-height: 1.5; }
-.fd-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.8rem; border: 1px solid; margin: 0.2rem 0.2rem 0 0; }
-.fd-placeholder { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--ink3); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; }
-
-.canal-matrix { overflow-x: auto; }
-.matrix-table { width: 100%; border-collapse: collapse; min-width: 700px; }
-.matrix-table th { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid var(--ink); background: var(--bg); }
-.matrix-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); font-size: 0.8rem; vertical-align: top; line-height: 1.55; }
-.matrix-table tr:hover td { background: var(--bg2); }
-.matrix-table td:first-child { font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
-.pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; padding: 0.15rem 0.5rem; margin: 0.1rem; border-radius: 0; border: 1px solid; }
-
-.tom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.tom-card { background: var(--bg); padding: 1.5rem; transition: background 0.2s; }
-.tom-card:hover { background: var(--bg2); }
-.tom-icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
-.tom-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--ink); }
-.tom-desc { font-size: 0.75rem; color: var(--ink3); line-height: 1.6; margin-bottom: 0.75rem; }
-.tom-formatos { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--ink3); border-top: 1px solid var(--line); padding-top: 0.6rem; }
-
-.figuras-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.figura-card { background: var(--bg); padding: 1.5rem; }
-.figura-tipo { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
-.figura-nome { font-family: 'Instrument Serif', serif; font-size: 1.3rem; font-style: italic; margin-bottom: 0.4rem; }
-.figura-def { font-size: 0.78rem; color: var(--ink3); line-height: 1.6; margin-bottom: 0.75rem; }
-.figura-ex { font-size: 0.78rem; font-style: italic; background: var(--bg2); padding: 0.5rem 0.75rem; border-left: 2px solid; color: var(--ink2); margin-bottom: 0.75rem; }
-.figura-formatos { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--ink3); }
-
-@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-.panel.active { animation: fadeIn 0.3s ease; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-height:100vh;}
+.header{padding:3rem 3rem 2rem;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;}
+.header-left h1{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:400;line-height:1;}
+.header-left h1 em{font-style:italic;color:var(--gold);}
+.header-left .version{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:var(--ink3);margin-bottom:0.75rem;text-transform:uppercase;}
+.header-right{text-align:right;}
+.formula-display{font-family:'Instrument Serif',serif;font-size:clamp(0.9rem,1.8vw,1.15rem);color:var(--ink2);line-height:1.9;}
+.formula-display .fv{color:var(--gold);font-style:italic;font-weight:700;}
+.formula-display .fo{color:var(--ink3);font-family:'JetBrains Mono',monospace;font-size:0.8em;margin:0 0.3em;}
+.formula-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:0.5rem;}
+.tabs-bar{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;background:var(--bg);position:sticky;top:0;z-index:100;}
+.tabs-bar::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;padding:1rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--ink);}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);background:var(--bg2);}
+.panel{display:none;padding:2.5rem 3rem 4rem;}
+.panel.active{display:block;}
+.sec-title{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;color:var(--ink3);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--line);}
+.builder-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;}
+@media(max-width:900px){.builder-layout{grid-template-columns:1fr;}}
+.builder-form{display:flex;flex-direction:column;gap:1.25rem;}
+.bfield{display:flex;flex-direction:column;gap:0.4rem;}
+.bfield-header{display:flex;align-items:baseline;gap:0.6rem;}
+.bfield-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink);font-weight:600;}
+.bfield-key{font-family:'Instrument Serif',serif;font-size:1rem;font-style:italic;color:var(--gold);}
+.bfield-hint{font-size:0.72rem;color:var(--ink3);line-height:1.5;margin-bottom:0.2rem;}
+.bfield-optional{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:var(--ink3);background:var(--bg2);padding:0.1rem 0.4rem;border:1px solid var(--line);}
+.bfield input,.bfield textarea,.bfield select{background:var(--bg2);border:1px solid var(--line);color:var(--ink);font-family:'Syne',sans-serif;font-size:0.82rem;padding:0.65rem 0.9rem;outline:none;transition:border-color 0.2s;width:100%;resize:vertical;}
+.bfield input:focus,.bfield textarea:focus,.bfield select:focus{border-color:var(--gold);}
+.bfield textarea{min-height:70px;}
+.chip-row{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.chip{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.05em;padding:0.3rem 0.7rem;border:1px solid var(--line);cursor:pointer;color:var(--ink3);background:var(--bg);transition:all 0.15s;user-select:none;}
+.chip:hover{border-color:var(--gold);color:var(--gold);}
+.chip.selected{background:var(--gold);border-color:var(--gold);color:#fff;}
+.arquetipos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.4rem;margin-top:0.4rem;}
+.arquetipo-card{border:1px solid var(--line);padding:0.75rem;cursor:pointer;transition:all 0.15s;background:var(--bg);}
+.arquetipo-card:hover{border-color:var(--gold);}
+.arquetipo-card.selected{background:var(--gold);border-color:var(--gold);color:#fff;}
+.arquetipo-card.selected .arq-desc{color:rgba(255,255,255,0.8);}
+.arq-nome{font-size:0.78rem;font-weight:700;margin-bottom:0.2rem;}
+.arq-desc{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--ink3);line-height:1.4;}
+.build-btn{margin-top:0.5rem;padding:0.9rem 1.5rem;background:var(--ink);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s,transform 0.1s;width:100%;}
+.build-btn:hover{background:var(--gold);}
+.build-btn:active{transform:scale(0.98);}
+.build-btn:disabled{background:var(--ink3);cursor:not-allowed;}
+.builder-result{position:sticky;top:80px;}
+.result-box{background:var(--bg2);border:1px solid var(--line);padding:2rem;min-height:400px;display:flex;flex-direction:column;gap:1.5rem;}
+.result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;color:var(--ink3);gap:0.75rem;text-align:center;}
+.result-empty-icon{font-size:2.5rem;opacity:0.3;}
+.result-empty-txt{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;}
+.result-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:1rem;color:var(--ink3);}
+.spinner{width:28px;height:28px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-txt{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--ink3);}
+.sugestao-card{background:var(--bg);border:1px solid var(--line);padding:1.5rem;margin-bottom:1rem;}
+.sugestao-card.rank-1{border-left:3px solid var(--gold);}
+.sugestao-card.rank-2{border-left:3px solid var(--ink3);}
+.sugestao-card.rank-3{border-left:3px solid var(--line);}
+.sug-rank{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:0.1em;}
+.sug-titulo{font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;color:var(--ink);margin-bottom:0.3rem;}
+.sug-formato{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink3);letter-spacing:0.1em;}
+.sug-section{margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--line);}
+.sug-section-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem;}
+.sug-section-content{font-size:0.78rem;color:var(--ink2);line-height:1.6;}
+.sug-tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.5rem;}
+.sug-tag{font-family:'JetBrains Mono',monospace;font-size:0.55rem;padding:0.15rem 0.45rem;border:1px solid var(--line);color:var(--ink3);}
+.gancho-box{font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;color:var(--ink);line-height:1.5;background:var(--bg);border:1px solid var(--gold);border-left:3px solid var(--gold);padding:1rem 1.25rem;}
+.roteiro-box{background:var(--bg);border:1px solid var(--line);padding:1.25rem;}
+.roteiro-phase{margin-bottom:1rem;}
+.roteiro-phase:last-child{margin-bottom:0;}
+.roteiro-phase-title{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;}
+.roteiro-phase-content{font-size:0.8rem;line-height:1.65;color:var(--ink2);border-left:1px solid var(--gold-l);padding-left:0.75rem;}
+.copy-btn{margin-top:1rem;padding:0.6rem 1rem;background:var(--bg2);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;color:var(--ink3);transition:all 0.2s;width:100%;}
+.copy-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:3rem;}
+.formula-cell{background:var(--bg);padding:1.5rem;}
+.fc-var{font-family:'Instrument Serif',serif;font-size:2.5rem;font-style:italic;line-height:1;margin-bottom:0.5rem;}
+.fc-name{font-size:0.85rem;font-weight:700;color:var(--ink);margin-bottom:0.4rem;}
+.fc-desc{font-size:0.78rem;color:var(--ink3);line-height:1.6;}
+.flow-row{display:flex;align-items:center;overflow-x:auto;gap:0;padding:1rem 0 2rem;scrollbar-width:thin;}
+.fnode{flex-shrink:0;text-align:center;padding:1.25rem 1rem;background:var(--bg2);border:1px solid var(--line);min-width:110px;transition:background 0.2s;}
+.fnode:hover{background:var(--bg);}
+.fnode-icon{font-size:1.5rem;margin-bottom:0.4rem;}
+.fnode-name{font-size:0.72rem;font-weight:700;}
+.fnode-code{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--ink3);margin-top:0.2rem;}
+.farrow{flex-shrink:0;width:48px;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.farrow-line{width:100%;height:1px;background:var(--ink3);}
+.farrow-head{font-size:0.6rem;color:var(--ink3);}
+.formats-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:900px){.formats-layout{grid-template-columns:1fr;}}
+.format-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
+.format-row{background:var(--bg);display:grid;grid-template-columns:2rem 1fr auto;align-items:center;gap:1rem;padding:0.9rem 1.2rem;cursor:pointer;transition:background 0.15s;}
+.format-row:hover{background:var(--bg2);}
+.format-row.selected{background:var(--ink);color:white;}
+.format-row.selected .fn{color:rgba(255,255,255,0.5);}
+.format-row.selected .fig-badge{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);}
+.format-num{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--ink3);}
+.format-name{font-size:0.82rem;font-weight:600;}
+.fn{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink3);}
+.fig-badge{font-family:'JetBrains Mono',monospace;font-size:0.58rem;border:1px solid var(--line);padding:0.15rem 0.5rem;color:var(--ink3);white-space:nowrap;}
+.format-detail{position:sticky;top:80px;background:var(--bg2);border:1px solid var(--line);padding:2rem;min-height:300px;}
+.fd-num{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--ink3);letter-spacing:0.1em;margin-bottom:0.5rem;}
+.fd-title{font-family:'Instrument Serif',serif;font-size:1.8rem;font-style:italic;margin-bottom:1rem;color:var(--ink);}
+.fd-desc{font-size:0.82rem;line-height:1.7;color:var(--ink2);margin-bottom:1.5rem;border-left:2px solid var(--gold);padding-left:1rem;}
+.fd-row{margin-bottom:1rem;}
+.fd-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:0.4rem;}
+.fd-value{font-size:0.8rem;color:var(--ink);line-height:1.5;}
+.fd-tag{display:inline-block;font-size:0.72rem;font-weight:600;padding:0.3rem 0.8rem;border:1px solid;margin:0.2rem 0.2rem 0 0;}
+.fd-placeholder{display:flex;align-items:center;justify-content:center;height:200px;color:var(--ink3);font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;}
+.canal-matrix{overflow-x:auto;}
+.matrix-table{width:100%;border-collapse:collapse;min-width:700px;}
+.matrix-table th{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);padding:0.75rem 1rem;text-align:left;border-bottom:2px solid var(--ink);background:var(--bg);}
+.matrix-table td{padding:0.8rem 1rem;border-bottom:1px solid var(--line);font-size:0.8rem;vertical-align:top;line-height:1.55;}
+.matrix-table tr:hover td{background:var(--bg2);}
+.matrix-table td:first-child{font-weight:700;font-size:0.85rem;white-space:nowrap;}
+.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;padding:0.15rem 0.5rem;margin:0.1rem;border:1px solid;}
+.tom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+.tom-card{background:var(--bg);padding:1.5rem;transition:background 0.2s;}
+.tom-card:hover{background:var(--bg2);}
+.tom-icon{font-size:1.6rem;margin-bottom:0.75rem;}
+.tom-name{font-size:0.9rem;font-weight:700;margin-bottom:0.4rem;color:var(--ink);}
+.tom-desc{font-size:0.75rem;color:var(--ink3);line-height:1.6;margin-bottom:0.75rem;}
+.tom-formatos{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink3);border-top:1px solid var(--line);padding-top:0.6rem;}
+.figuras-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+.figura-card{background:var(--bg);padding:1.5rem;}
+.figura-tipo{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
+.figura-nome{font-family:'Instrument Serif',serif;font-size:1.3rem;font-style:italic;margin-bottom:0.4rem;}
+.figura-def{font-size:0.78rem;color:var(--ink3);line-height:1.6;margin-bottom:0.75rem;}
+.figura-ex{font-size:0.78rem;font-style:italic;background:var(--bg2);padding:0.5rem 0.75rem;border-left:2px solid;color:var(--ink2);margin-bottom:0.75rem;}
+.figura-formatos{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink3);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.panel.active{animation:fadeIn 0.3s ease;}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="version">Fórmula da Comunicação · v4.0</div>
@@ -441,6 +175,7 @@ body {
   </div>
 </div>
 
+<!-- TABS -->
 <div class="tabs-bar">
   <button class="tab-btn active" onclick="switchTab('builder',this)">⓪ Construtor</button>
   <button class="tab-btn" onclick="switchTab('formula',this)">① Fórmula</button>
@@ -451,56 +186,107 @@ body {
   <button class="tab-btn" onclick="switchTab('matrix',this)">⑥ Matriz Completa</button>
 </div>
 
+<!-- ⓪ CONSTRUTOR -->
 <div id="panel-builder" class="panel active">
   <div class="sec-title">Construtor de Conteúdo</div>
   <div class="builder-layout">
     <div class="builder-form">
 
+      <!-- EMISSOR -->
       <div class="bfield">
         <div class="bfield-header">
           <span class="bfield-key">EMISSOR</span>
           <span class="bfield-label">Quem é você?</span>
         </div>
-        <div class="bfield-hint">Descreva quem você é como criador: sua área, seu posicionamento, o que você defende. <em>Obrigatório.</em></div>
+        <div class="bfield-hint">Descreva quem você é como criador: sua área, seu posicionamento, o que você defende. Isso calibra o tom e a voz de tudo que o sistema gerar. <em>Obrigatório.</em></div>
         <textarea id="b-emissor" placeholder='Ex: "Sou especialista em comunicação e imagem pessoal para mulheres que querem ser levadas a sério sem abrir mão de quem são"'></textarea>
       </div>
 
+      <!-- ARQUÉTIPOS -->
       <div class="bfield">
         <div class="bfield-header">
           <span class="bfield-key">ARQUÉTIPOS</span>
           <span class="bfield-label">Quem é o seu personagem?</span>
         </div>
-        <div class="bfield-hint">Escolha até 3 arquétipos que representam sua identidade estável. <em>Obrigatório.</em></div>
+        <div class="bfield-hint">Escolha até 3 arquétipos que representam sua identidade estável como criadora. Eles definem sua "casa" — como você é reconhecida ao longo do tempo. <em>Obrigatório.</em></div>
         <div class="arquetipos-grid" id="arquetipos-grid">
-          <div class="arquetipo-card" data-val="Inocente" onclick="toggleArquetipo(this)"><div class="arq-nome">🌸 Inocente</div><div class="arq-desc">Otimista, good vibes, acredita que vai dar certo</div></div>
-          <div class="arquetipo-card" data-val="Pessoa Comum" onclick="toggleArquetipo(this)"><div class="arq-nome">🙋 Pessoa Comum</div><div class="arq-desc">Vulnerável, real, gente como a gente</div></div>
-          <div class="arquetipo-card" data-val="Heroína" onclick="toggleArquetipo(this)"><div class="arq-nome">⚡ Heroína</div><div class="arq-desc">Superação, meta, "eu vou vencer"</div></div>
-          <div class="arquetipo-card" data-val="Cuidadora" onclick="toggleArquetipo(this)"><div class="arq-nome">🤍 Cuidadora</div><div class="arq-desc">Acolhe, cuida, amiga conselheira</div></div>
-          <div class="arquetipo-card" data-val="Exploradora" onclick="toggleArquetipo(this)"><div class="arq-nome">🧭 Exploradora</div><div class="arq-desc">Questiona padrões, autoconhecimento</div></div>
-          <div class="arquetipo-card" data-val="Rebelde" onclick="toggleArquetipo(this)"><div class="arq-nome">🔥 Rebelde</div><div class="arq-desc">Provoca, sem filtro, questiona tudo</div></div>
-          <div class="arquetipo-card" data-val="Amante" onclick="toggleArquetipo(this)"><div class="arq-nome">💋 Amante</div><div class="arq-desc">Estética, sensorialidade, intensidade</div></div>
-          <div class="arquetipo-card" data-val="Criadora" onclick="toggleArquetipo(this)"><div class="arq-nome">🎨 Criadora</div><div class="arq-desc">Artista, inventa formatos, originalidade</div></div>
-          <div class="arquetipo-card" data-val="Divertida" onclick="toggleArquetipo(this)"><div class="arq-nome">😂 Divertida</div><div class="arq-desc">Humor, memes, autodeboche</div></div>
-          <div class="arquetipo-card" data-val="Sábia" onclick="toggleArquetipo(this)"><div class="arq-nome">🦉 Sábia</div><div class="arq-desc">Didática, analítica, contextualiza</div></div>
-          <div class="arquetipo-card" data-val="Maga" onclick="toggleArquetipo(this)"><div class="arq-nome">✨ Maga</div><div class="arq-desc">Transforma, revela o oculto, poética</div></div>
-          <div class="arquetipo-card" data-val="Governante" onclick="toggleArquetipo(this)"><div class="arq-nome">👑 Governante</div><div class="arq-desc">Lidera, organiza, assertiva</div></div>
+          <div class="arquetipo-card" data-val="Inocente" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🌸 Inocente</div>
+            <div class="arq-desc">Otimista, good vibes, acredita que vai dar certo</div>
+          </div>
+          <div class="arquetipo-card" data-val="Pessoa Comum" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🙋 Pessoa Comum</div>
+            <div class="arq-desc">Vulnerável, real, gente como a gente</div>
+          </div>
+          <div class="arquetipo-card" data-val="Heroína" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">⚡ Heroína</div>
+            <div class="arq-desc">Superação, meta, "eu vou vencer"</div>
+          </div>
+          <div class="arquetipo-card" data-val="Cuidadora" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🤍 Cuidadora</div>
+            <div class="arq-desc">Acolhe, cuida, amiga conselheira</div>
+          </div>
+          <div class="arquetipo-card" data-val="Exploradora" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🧭 Exploradora</div>
+            <div class="arq-desc">Questiona padrões, autoconhecimento</div>
+          </div>
+          <div class="arquetipo-card" data-val="Rebelde" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🔥 Rebelde</div>
+            <div class="arq-desc">Provoca, sem filtro, questiona tudo</div>
+          </div>
+          <div class="arquetipo-card" data-val="Amante" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">💋 Amante</div>
+            <div class="arq-desc">Estética, sensorialidade, intensidade</div>
+          </div>
+          <div class="arquetipo-card" data-val="Criadora" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🎨 Criadora</div>
+            <div class="arq-desc">Artista, inventa formatos, originalidade</div>
+          </div>
+          <div class="arquetipo-card" data-val="Divertida" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">😂 Divertida</div>
+            <div class="arq-desc">Humor, memes, autodeboche</div>
+          </div>
+          <div class="arquetipo-card" data-val="Sábia" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">🦉 Sábia</div>
+            <div class="arq-desc">Didática, analítica, contextualiza</div>
+          </div>
+          <div class="arquetipo-card" data-val="Maga" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">✨ Maga</div>
+            <div class="arq-desc">Transforma, revela o oculto, poética</div>
+          </div>
+          <div class="arquetipo-card" data-val="Governante" onclick="toggleArquetipo(this)">
+            <div class="arq-nome">👑 Governante</div>
+            <div class="arq-desc">Lidera, organiza, assertiva</div>
+          </div>
         </div>
       </div>
 
+      <!-- WHAT -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">WHAT</span><span class="bfield-label">Qual é a mensagem?</span></div>
-        <div class="bfield-hint">O núcleo do que você quer comunicar. <em>Obrigatório.</em></div>
+        <div class="bfield-header">
+          <span class="bfield-key">WHAT</span>
+          <span class="bfield-label">Qual é a mensagem?</span>
+        </div>
+        <div class="bfield-hint">O núcleo do que você quer comunicar. Uma ideia, crença, insight ou oferta. <em>Obrigatório.</em></div>
         <textarea id="b-what" placeholder='Ex: "Consistência vence talento na criação de conteúdo"'></textarea>
       </div>
 
+      <!-- WHO -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">WHO</span><span class="bfield-label">Para quem é?</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">WHO</span>
+          <span class="bfield-label">Para quem é?</span>
+        </div>
         <div class="bfield-hint">Descreva seu público: dores, desejos, nível de consciência. <em>Obrigatório.</em></div>
         <textarea id="b-who" placeholder='Ex: "Mulheres 25-34 anos que querem crescer no Instagram mas travam na hora de criar conteúdo"'></textarea>
       </div>
 
+      <!-- WHY -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">WHY</span><span class="bfield-label">Qual a função da mensagem?</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">WHY</span>
+          <span class="bfield-label">Qual a função da mensagem?</span>
+        </div>
         <div class="bfield-hint">O que você quer causar?</div>
         <div class="chip-row" id="why-chips">
           <span class="chip" data-val="gerar identificação" onclick="toggleChip(this)">🤝 Identificação</span>
@@ -516,8 +302,14 @@ body {
         <input id="b-why-custom" type="text" placeholder="Ou descreva com suas palavras..." style="margin-top:0.5rem"/>
       </div>
 
+      <!-- WHEN -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">WHEN</span><span class="bfield-label">Quando vai postar?</span><span class="bfield-optional">opcional</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">WHEN</span>
+          <span class="bfield-label">Quando vai postar?</span>
+          <span class="bfield-optional">opcional</span>
+        </div>
+        <div class="bfield-hint">Quando este conteúdo vai ao ar?</div>
         <div class="chip-row" id="when-chips">
           <span class="chip" data-val="hoje" onclick="toggleChip(this)">⚡ Hoje</span>
           <span class="chip" data-val="essa semana" onclick="toggleChip(this)">📅 Essa semana</span>
@@ -526,8 +318,13 @@ body {
         </div>
       </div>
 
+      <!-- WHERE -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">WHERE</span><span class="bfield-label">Qual canal?</span><span class="bfield-optional">opcional</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">WHERE</span>
+          <span class="bfield-label">Qual canal?</span>
+          <span class="bfield-optional">opcional</span>
+        </div>
         <div class="chip-row" id="where-chips">
           <span class="chip" data-val="Instagram" onclick="toggleChip(this)">📸 Instagram</span>
           <span class="chip" data-val="TikTok" onclick="toggleChip(this)">🎵 TikTok</span>
@@ -539,8 +336,13 @@ body {
         </div>
       </div>
 
+      <!-- HOW -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">HOW</span><span class="bfield-label">Formato preferido?</span><span class="bfield-optional">opcional</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">HOW</span>
+          <span class="bfield-label">Formato preferido?</span>
+          <span class="bfield-optional">opcional</span>
+        </div>
         <div class="chip-row" id="how-chips">
           <span class="chip" data-val="Reels / vídeo curto" onclick="toggleChip(this)">🎬 Reels</span>
           <span class="chip" data-val="Carrossel" onclick="toggleChip(this)">📑 Carrossel</span>
@@ -551,8 +353,13 @@ body {
         </div>
       </div>
 
+      <!-- HOW LONG -->
       <div class="bfield">
-        <div class="bfield-header"><span class="bfield-key">HOW LONG</span><span class="bfield-label">Tempo de produção?</span><span class="bfield-optional">opcional</span></div>
+        <div class="bfield-header">
+          <span class="bfield-key">HOW LONG</span>
+          <span class="bfield-label">Tempo de produção?</span>
+          <span class="bfield-optional">opcional</span>
+        </div>
         <div class="chip-row" id="howlong-chips">
           <span class="chip" data-val="menos de 30 minutos" onclick="toggleChip(this)">⚡ <30 min</span>
           <span class="chip" data-val="meio período" onclick="toggleChip(this)">🕐 Meio período</span>
@@ -561,9 +368,12 @@ body {
         </div>
       </div>
 
-      <button class="build-btn" id="buildBtn" onclick="buildContent()">✦ Gerar Sugestões de Conteúdo</button>
+      <button class="build-btn" id="buildBtn" onclick="buildContent()">
+        ✦ Gerar Sugestões de Conteúdo
+      </button>
     </div>
 
+    <!-- RESULT -->
     <div class="builder-result">
       <div class="result-box" id="resultBox">
         <div class="result-empty" id="resultEmpty">
@@ -575,11 +385,12 @@ body {
   </div>
 </div>
 
+<!-- ① FÓRMULA -->
 <div id="panel-formula" class="panel">
   <div class="sec-title">Elementos da Fórmula</div>
   <div class="formula-grid">
     <div class="formula-cell"><div class="fc-var" style="color:var(--gold)">E</div><div class="fc-name">Emissor</div><div class="fc-desc">Quem fala. Carrega credibilidade (ethos), repertório cultural, intenção e viés. Nunca neutro.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">M</div><div class="fc-name">Mensagem</div><div class="fc-desc">O conteúdo codificado — verbal, simbólico, emocional.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">M</div><div class="fc-name">Mensagem</div><div class="fc-desc">O conteúdo codificado — verbal, simbólico, emocional. Envolve o quê se diz e como é estruturado.</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">S</div><div class="fc-name">Sinal</div><div class="fc-desc">A forma concreta da mensagem transmitida: áudio, vídeo, texto, imagem, gesto.</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--blue)">C</div><div class="fc-name">Canal</div><div class="fc-desc">O meio de transmissão. Cada canal tem sua gramática própria.</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--red)">R</div><div class="fc-name">Receptor</div><div class="fc-desc">Quem recebe e decodifica. Carrega seu próprio contexto, emoções e filtros.</div></div>
@@ -587,45 +398,78 @@ body {
     <div class="formula-cell"><div class="fc-var" style="color:var(--red)">⚡</div><div class="fc-name">Ruído</div><div class="fc-desc">Toda interferência que distorce a mensagem: físico, semântico, cultural, emocional.</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--green)">FM</div><div class="fc-name">Formato Criativo</div><div class="fc-desc">A estrutura narrativa escolhida: série, análise, analogia, diálogo, vlog…</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">TV</div><div class="fc-name">Tom de Voz</div><div class="fc-desc">A identidade verbal: didático, provocativo, íntimo, humorístico…</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">FL</div><div class="fc-name">Figuras de Linguagem</div><div class="fc-desc">Ferramentas retóricas que amplificam o impacto.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">FL</div><div class="fc-name">Figuras de Linguagem</div><div class="fc-desc">Ferramentas retóricas que amplificam o impacto: metáfora, ironia, anáfora…</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--gold)">Δ</div><div class="fc-name">Transformação</div><div class="fc-desc">O impacto real: mudança de crença, emoção, comportamento ou relação.</div></div>
   </div>
   <div class="sec-title">Fluxo Completo</div>
   <div class="flow-row" id="flowRow"></div>
 </div>
 
+<!-- ② FORMATOS -->
 <div id="panel-formatos" class="panel">
   <div class="sec-title">22 Formatos Criativos × Figuras de Linguagem</div>
   <div class="formats-layout">
     <div class="format-list" id="formatList"></div>
-    <div class="format-detail" id="formatDetail"><div class="fd-placeholder">← Selecione um formato</div></div>
+    <div class="format-detail" id="formatDetail">
+      <div class="fd-placeholder">← Selecione um formato</div>
+    </div>
   </div>
 </div>
 
+<!-- ③ CANAL -->
 <div id="panel-canal" class="panel">
   <div class="sec-title">Canais × Tipo de Sinal × Formatos Recomendados</div>
-  <div class="canal-matrix"><table class="matrix-table" id="canalTable"></table></div>
+  <div class="canal-matrix">
+    <table class="matrix-table" id="canalTable"></table>
+  </div>
 </div>
 
+<!-- ④ TOM -->
 <div id="panel-tom" class="panel">
   <div class="sec-title">Espectro de Tom de Voz</div>
   <div class="tom-grid" id="tomGrid"></div>
 </div>
 
+<!-- ⑤ FIGURAS -->
 <div id="panel-figuras" class="panel">
   <div class="sec-title">Figuras de Linguagem & Funções Retóricas</div>
   <div class="figuras-grid" id="figurasGrid"></div>
 </div>
 
+<!-- ⑥ MATRIZ -->
 <div id="panel-matrix" class="panel">
   <div class="sec-title">Matriz Completa: Formato × Tom × Figura × Canal</div>
-  <div class="canal-matrix"><table class="matrix-table" id="matrizTable"></table></div>
+  <div class="canal-matrix">
+    <table class="matrix-table" id="matrizTable"></table>
+  </div>
 </div>
 
 <script>
+// ── SYSTEM PROMPT ──
 const SYSTEM_PROMPT = `Você é a FÓRMULA DA COMUNICAÇÃO — um sistema especialista em estratégia de conteúdo, retórica e comunicação viral.
 
-Gere EXATAMENTE 3 sugestões rankeadas em JSON válido:
+Seu papel é analisar os dados do emissor e do conteúdo e gerar 3 sugestões rankeadas de formato de postagem, cada uma com elementos de linguagem, figuras retóricas e estrutura narrativa calibrados para máximo impacto.
+
+NOTA IMPORTANTE: Storytelling NÃO é uma figura de linguagem. É o conceito que define COMO a história vai ser contada. O roteiro ideal segue o Loop do Hábito: Gatilho → Rotina → Recompensa.
+
+SISTEMA DE ARQUÉTIPOS — DOIS NÍVEIS:
+NÍVEL 1 — preenchido pelo EMISSOR: representa quem ele É, sua identidade estável.
+NÍVEL 2 — definido pelo SISTEMA como resposta ao conteúdo: qual energia serve ESTE conteúdo específico.
+
+GRAMÁTICA DOS CANAIS:
+INSTAGRAM: Emocionar + Estética + Informar + Inspirar. Figuras: Metáfora, Anáfora, Sinestesia, Antítese. Formatos: Reels, Carrossel, Narrado, Arrume-se comigo, Palestrinha.
+TIKTOK: Entreter + Convencer + Informar. Figuras: Prosopopeia, Gradação, Ironia, Hipérbole. Formatos: Trivialidade, Gancho polêmico, Diálogo, Arrume-se comigo, Palestrinha, Séries curtas.
+YOUTUBE: Informar + Emocionar. Figuras de SINTAXE e PENSAMENTO: Anáfora, Polissíndeto, Paradoxo, Gradação, Antítese. Formatos: Série, Vlog, Análise, Narrado.
+LINKEDIN: Informar + Convencer. Figuras: Antítese, Analogia, Gradação, Pergunta retórica. Formatos: Análise, Vídeo explicativo de aula, Carrossel.
+PODCAST: Emocionar + Metalinguística. Figuras: Perífrase, Gradação, Apóstrofe. Formatos: Narrado, Série, Conversa de bar.
+
+TIMING:
+HOJE → formatos rápidos, impacto imediato
+ESSA SEMANA → equilíbrio profundidade e agilidade
+DATA ESPECIAL → explore o contexto emocional da data
+PARA O ESTOQUE → profundidade e atemporalidade
+
+Gere EXATAMENTE 3 sugestões rankeadas em JSON válido com esta estrutura:
 {
   "sugestoes": [
     {
@@ -634,40 +478,46 @@ Gere EXATAMENTE 3 sugestões rankeadas em JSON válido:
       "justificativa_rank": "Por que é a melhor opção",
       "formato_criativo": "Nome do formato",
       "formato_base": "Reels | Carrossel | Vídeo | Texto | Áudio",
-      "arquetipo_de_cena": "Arquétipo recomendado e por quê",
-      "funcao_protagonista": "Função de linguagem que lidera",
+      "arquetipo_de_cena": "Qual arquétipo o sistema recomenda e por quê",
+      "funcao_protagonista": "Qual função de linguagem lidera",
       "tom_de_voz": "Tom resultante",
       "figuras_recomendadas": ["figura1","figura2","figura3"],
-      "por_que_cada_figura": {"figura1":"uso","figura2":"uso","figura3":"uso"},
+      "por_que_cada_figura": {
+        "figura1": "uso estratégico",
+        "figura2": "uso estratégico",
+        "figura3": "uso estratégico"
+      },
       "estrutura_narrativa": {
         "gatilho": "Como abrir — primeiros 3 segundos",
         "rotina": "Como desenvolver",
         "recompensa": "Como fechar"
       },
       "gancho_sugerido": "Exemplo real de abertura",
-      "gatilho_viral": "Princípio viral ativado",
+      "gatilho_viral": "Qual princípio viral ativa",
       "tempo_estimado": "Estimativa de produção"
     }
   ]
 }
+
 Responda APENAS com JSON válido, sem texto fora do JSON.`;
 
+// ── DATA ──
 const formatos = [
-  { id:1,  name:'Série',               fig:'Anáfora',       figTipo:'Repetição',     color:'var(--blue)',   desc:'Conteúdo episódico com gancho entre partes. Cria dependência narrativa e audiência fiel.', tom:'Didático ou Narrativo', canal:'YouTube, Instagram, TikTok', ex:'"Na parte 1 vimos... agora..."', funcao:'Criar expectativa, fidelizar audiência.' },
-  { id:2,  name:'Análise',             fig:'Silogismo',     figTipo:'Argumentação',  color:'var(--purple)', desc:'Desconstrução estruturada de um tema com lógica e evidências.', tom:'Técnico ou Provocativo', canal:'YouTube, LinkedIn, Podcast', ex:'"Premissa A + B = Conclusão inesperada"', funcao:'Construir autoridade, educar.' },
-  { id:3,  name:'Experimento Social',  fig:'Ironia',        figTipo:'Contraste',     color:'var(--red)',    desc:'Situação controlada para evidenciar comportamentos humanos reais.', tom:'Irônico ou Revelador', canal:'TikTok, YouTube, Instagram', ex:'Testar uma premissa social ao vivo.', funcao:'Gerar empatia, provocar, viralizar.' },
-  { id:4,  name:'Tela Dividida',       fig:'Antítese',      figTipo:'Contraste',     color:'var(--teal)',   desc:'Dois lados simultâneos na tela — comparações, antes/depois.', tom:'Direto ou Comparativo', canal:'TikTok, Reels', ex:'"De um lado X... do outro Y."', funcao:'Comparar, contrastar.' },
-  { id:5,  name:'Dinamismo',           fig:'Clímax',        figTipo:'Progressão',    color:'var(--gold)',   desc:'Ritmo acelerado, cortes rápidos. Prende atenção pela estimulação sensorial.', tom:'Energético', canal:'TikTok, Reels', ex:'Edição com ritmo musical e transições.', funcao:'Prender atenção, entreter.' },
-  { id:6,  name:'Narrado',             fig:'Prosopopeia',   figTipo:'Personificação',color:'var(--green)',  desc:'Voz em off conduz o vídeo. Cria intimidade e permite narrar perspectivas externas.', tom:'Narrativo ou Íntimo', canal:'YouTube, TikTok, Reels', ex:'"Imagine que você acorda um dia e..."', funcao:'Criar imersão, contar histórias.' },
-  { id:7,  name:'Gancho Polêmico',     fig:'Hipérbole',     figTipo:'Ênfase',        color:'var(--red)',    desc:'Abertura provocativa que desafia uma crença popular.', tom:'Provocativo', canal:'TikTok, Twitter/X, YouTube', ex:'"Tudo que te ensinaram sobre X está errado."', funcao:'Gerar atenção imediata.' },
-  { id:8,  name:'Formato Combinado',   fig:'Polissíndeto',  figTipo:'Acumulação',    color:'var(--purple)', desc:'Mistura intencional de dois ou mais formatos.', tom:'Versátil', canal:'YouTube, Podcast, Instagram', ex:'Começa como análise, vira diálogo.', funcao:'Surpreender, reter.' },
-  { id:9,  name:'Trivial',             fig:'Eufemismo',     figTipo:'Suavização',    color:'var(--teal)',   desc:'Conteúdo sobre algo mundano apresentado como profundo.', tom:'Reflexivo ou Íntimo', canal:'TikTok, Instagram', ex:'"Preparando um café me fez pensar em liberdade..."', funcao:'Gerar identificação.' },
-  { id:10, name:'Analogia',            fig:'Metáfora',      figTipo:'Comparação',    color:'var(--gold)',   desc:'Explica o complexo através do familiar.', tom:'Didático ou Criativo', canal:'YouTube, Podcast, LinkedIn', ex:'"Comunicação é como código: se o receptor não entende, não roda."', funcao:'Simplificar, criar insight.' },
-  { id:11, name:'Criativo Preguiçoso', fig:'Elipse',        figTipo:'Omissão',       color:'var(--blue)',   desc:'Reutiliza conteúdo existente com um ângulo novo.', tom:'Descontraído', canal:'TikTok, Reels, Twitter', ex:'Screenshot de post próprio + comentário em vídeo.', funcao:'Otimizar produção.' },
-  { id:12, name:'Conversa de Bar',     fig:'Coloquialismo', figTipo:'Registro',      color:'var(--orange)', desc:'Linguagem informal, sem roteiro, como conversa entre amigos.', tom:'Íntimo e Informal', canal:'TikTok, Stories, Podcast', ex:'"Cara, você não vai acreditar..."', funcao:'Criar proximidade.' },
-  { id:13, name:'Palestrinha',         fig:'Enumeração',    figTipo:'Organização',   color:'var(--purple)', desc:'Estrutura de aulinha curta: problema → desenvolvimento → solução.', tom:'Didático', canal:'TikTok, Instagram', ex:'"3 pontos sobre X: 1)... 2)... 3)..."', funcao:'Educar, demonstrar autoridade.' },
-  { id:14, name:'Comparação',          fig:'Antítese',      figTipo:'Contraste',     color:'var(--teal)',   desc:'Coloca dois elementos lado a lado para revelar diferenças reveladoras.', tom:'Analítico ou Provocativo', canal:'YouTube, TikTok, LinkedIn', ex:'"X vs Y: o que ninguém te conta"', funcao:'Facilitar decisões, gerar engajamento.' },
-  { id:15, name:'Vlog',                fig:'Hipotipose',    figTipo:'Vivacidade',    color:'var(--green)',  desc:'Registro do cotidiano como conteúdo. A vida como narrativa contínua.', tom:'Íntimo e Autêntico', canal:'YouTube, TikTok, Stories', ex:'Câmera na mão, dia a dia como conteúdo.', funcao:'Criar conexão, fidelizar.' },
+  { id:1,  name:'Série',               fig:'Anáfora',      figTipo:'Repetição',    color:'var(--blue)',   desc:'Conteúdo episódico com gancho entre partes. Cria dependência narrativa e audiência fiel.', tom:'Didático ou Narrativo', canal:'YouTube, Instagram, TikTok', ex:'"Na parte 1 vimos... agora..."', funcao:'Criar expectativa, fidelizar audiência.' },
+  { id:2,  name:'Análise',             fig:'Silogismo',    figTipo:'Argumentação', color:'var(--purple)', desc:'Desconstrução estruturada de um tema com lógica e evidências.', tom:'Técnico ou Provocativo', canal:'YouTube, LinkedIn, Podcast', ex:'"Premissa A + Premissa B = Conclusão inesperada"', funcao:'Construir autoridade, educar.' },
+  { id:3,  name:'Experimento Social',  fig:'Ironia',       figTipo:'Contraste',    color:'var(--red)',    desc:'Situação controlada para evidenciar comportamentos humanos reais.', tom:'Irônico ou Revelador', canal:'TikTok, YouTube, Instagram', ex:'Testar uma premissa social ao vivo.', funcao:'Gerar empatia, provocar, viralizar.' },
+  { id:4,  name:'Tela Dividida',       fig:'Antítese',     figTipo:'Contraste',    color:'var(--teal)',   desc:'Dois lados simultâneos na tela — comparações, antes/depois.', tom:'Direto ou Comparativo', canal:'TikTok, Reels', ex:'"De um lado X... do outro Y."', funcao:'Comparar, contrastar.' },
+  { id:5,  name:'Dinamismo',           fig:'Clímax',       figTipo:'Progressão',   color:'var(--gold)',   desc:'Ritmo acelerado, cortes rápidos. Prende atenção pela estimulação sensorial.', tom:'Energético', canal:'TikTok, Reels', ex:'Edição com ritmo musical, transições.', funcao:'Prender atenção, entreter.' },
+  { id:6,  name:'Narrado',             fig:'Prosopopeia',  figTipo:'Personificação',color:'var(--green)', desc:'Voz em off conduz o vídeo. Cria intimidade e permite narrar perspectivas externas.', tom:'Narrativo ou Íntimo', canal:'YouTube, TikTok, Reels', ex:'"Imagine que você acorda um dia e..."', funcao:'Criar imersão, contar histórias.' },
+  { id:7,  name:'Gancho Polêmico',     fig:'Hipérbole',    figTipo:'Ênfase',       color:'var(--red)',    desc:'Abertura provocativa que desafia uma crença popular.', tom:'Provocativo', canal:'TikTok, Twitter/X, YouTube', ex:'"Tudo que te ensinaram sobre X está errado."', funcao:'Gerar atenção imediata.' },
+  { id:8,  name:'Formato Combinado',   fig:'Polissíndeto', figTipo:'Acumulação',   color:'var(--purple)', desc:'Mistura intencional de dois ou mais formatos num mesmo conteúdo.', tom:'Versátil', canal:'YouTube, Podcast, Instagram', ex:'Começa como análise, vira diálogo.', funcao:'Surpreender, reter.' },
+  { id:9,  name:'Trivial',             fig:'Eufemismo',    figTipo:'Suavização',   color:'var(--teal)',   desc:'Conteúdo sobre algo mundano apresentado como profundo.', tom:'Reflexivo ou Íntimo', canal:'TikTok, Instagram', ex:'"Preparando um café me fez pensar em liberdade..."', funcao:'Gerar identificação.' },
+  { id:10, name:'Analogia',            fig:'Metáfora',     figTipo:'Comparação',   color:'var(--gold)',   desc:'Explica o complexo através do familiar.', tom:'Didático ou Criativo', canal:'YouTube, Podcast, LinkedIn', ex:'"Comunicação é como código: se o receptor não entende, não roda."', funcao:'Simplificar, criar insight.' },
+  { id:11, name:'Criativo Preguiçoso', fig:'Elipse',       figTipo:'Omissão',      color:'var(--blue)',   desc:'Reutiliza conteúdo existente com um ângulo novo.', tom:'Descontraído', canal:'TikTok, Reels, Twitter', ex:'Screenshot de post próprio + comentário em vídeo.', funcao:'Otimizar produção.' },
+  { id:12, name:'Conversa de Bar',     fig:'Coloquialismo',figTipo:'Registro',     color:'var(--orange)', desc:'Linguagem informal, sem roteiro, como conversa entre amigos.', tom:'Íntimo e Informal', canal:'TikTok, Stories, Podcast', ex:'"Cara, você não vai acreditar..."', funcao:'Criar proximidade.' },
+  { id:13, name:'Palestrinha',         fig:'Enumeração',   figTipo:'Organização',  color:'var(--purple)', desc:'Estrutura de aulinha curta: problema → desenvolvimento → solução.', tom:'Didático', canal:'TikTok, Instagram', ex:'"3 pontos sobre X: 1)... 2)... 3)..."', funcao:'Educar, demonstrar autoridade.' },
+  { id:14, name:'Comparação',          fig:'Antítese',     figTipo:'Contraste',    color:'var(--teal)',   desc:'Coloca dois elementos lado a lado para revelar diferenças reveladoras.', tom:'Analítico ou Provocativo', canal:'YouTube, TikTok, LinkedIn', ex:'"X vs Y: o que ninguém te conta"', funcao:'Facilitar decisões, gerar engajamento.' },
+  { id:15, name:'Vlog',                fig:'Hipotipose',   figTipo:'Vivacidade',   color:'var(--green)',  desc:'Registro do cotidiano como conteúdo. A vida como narrativa contínua.', tom:'Íntimo e Autêntico', canal:'YouTube, TikTok, Stories', ex:'Câmera na mão,dia a dia como conteúdo.', funcao:'Criar conexão, fidelizar.' },
   { id:16, name:'Diálogo',             fig:'Apóstrofe',     figTipo:'Interpelação',  color:'var(--blue)',   desc:'Conversa simulada ou real com outra pessoa. Dinâmica e envolvente.', tom:'Conversacional', canal:'TikTok, YouTube, Podcast', ex:'"Me perguntaram: X. Minha resposta foi..."', funcao:'Humanizar, gerar identificação.' },
   { id:17, name:'Arrume-se Comigo',    fig:'Sinestesia',    figTipo:'Fusão Sensorial',color:'var(--gold)', desc:'Conteúdo de rotina de beleza/preparação com narração simultânea sobre outro tema.', tom:'Íntimo e Multissensorial', canal:'TikTok, Instagram, YouTube', ex:'Se arrumando enquanto fala sobre comunicação.', funcao:'Engajar, entreter, educar.' },
   { id:18, name:'Reação',              fig:'Paráfrase',     figTipo:'Reformulação',  color:'var(--red)',    desc:'Comentar e reagir a conteúdo de terceiros, adicionando perspectiva própria.', tom:'Analítico ou Opinativo', canal:'TikTok, YouTube, Twitter/X', ex:'Dueto ou resposta a vídeo viral.', funcao:'Gerar debate, mostrar posicionamento.' },
@@ -691,5 +541,213 @@ const toms = [
 const figuras = [
   { tipo:'Repetição',      nome:'Anáfora',           cor:'var(--blue)',   def:'Repetição de palavras ou expressões no início de frases consecutivas para criar ritmo e ênfase.', ex:'"Comunicação é poder. Comunicação é escolha. Comunicação é você."', formatos:'Série, Manifesto, Palestrinha' },
   { tipo:'Comparação',     nome:'Metáfora',           cor:'var(--gold)',   def:'Identifica dois elementos distintos sem usar "como" — cria uma fusão de significados.', ex:'"Sua imagem é um currículo silencioso."', formatos:'Analogia, Trivial, Narrado' },
-  { tipo
+  { tipo:'Personificação', nome:'Prosopopeia',        cor:'var(--green)',  def:'Atribuição de características humanas a seres inanimados ou conceitos abstratos.', ex:'"A consistência sussurra no ouvido do talento."', formatos:'Narrado, Vlog, Trivial' },
+  { tipo:'Contraste',      nome:'Antítese',           cor:'var(--teal)',   def:'Uso de termos ou ideias opostas para realçar o contraste.', ex:'"Não é sobre ter tempo, é sobre fazer tempo."', formatos:'Tela Dividida, Comparação, Gancho Polêmico' },
+  { tipo:'Ênfase',         nome:'Hipérbole',          cor:'var(--red)',    def:'Exagero intencional para criar um efeito dramático ou humorístico.', ex:'"Eu morro de vergonha de aparecer nos stories!"', formatos:'Gancho Polêmico, Reação, Divertida' },
+  { tipo:'Argumentação',   nome:'Silogismo',          cor:'var(--purple)', def:'Argumento lógico com duas premissas e uma conclusão. Ex: "Todo homem é mortal. Sócrates é homem. Logo, Sócrates é mortal."', formatos:'Análise, Palestrinha, LinkedIn' },
+  { tipo:'Progressão',     nome:'Gradação',           cor:'var(--purple)', def:'Sequência de ideias em ordem crescente ou decrescente de intensidade.', ex:'"Eu comecei com um post, depois um vídeo, e agora tenho um canal inteiro."', formatos:'Lista, Série, Palestrinha' },
+  { tipo:'Suavização',     nome:'Eufemismo',          cor:'var(--teal)',   def:'Uso de uma expressão mais suave para amenizar uma ideia desagradável.', ex:'"Ele não está mais entre nós" (em vez de "ele morreu").', formatos:'Trivial, Íntimo, Conversa de Bar' },
+  { tipo:'Omissão',        nome:'Elipse',             cor:'var(--blue)',   def:'Omissão de um termo facilmente subentendido pelo contexto.', ex:'"Na vida, [você precisa de] coragem."', formatos:'Criativo Preguiçoso, Diálogo, Stories' },
+  { tipo:'Registro',       nome:'Coloquialismo',      cor:'var(--orange)', def:'Uso de linguagem informal, típica da fala cotidiana.', ex:'"E aí, galera, tudo beleza?"', formatos:'Conversa de Bar, Vlog, Stories' },
+  { tipo:'Organização',    nome:'Enumeração',         cor:'var(--purple)', def:'Apresentação de uma lista de elementos ou ideias.', ex:'"Os 3 pilares da comunicação são: clareza, concisão e coerência."', formatos:'Lista, Palestrinha, Análise' },
+  { tipo:'Vivacidade',     nome:'Hipotipose',         cor:'var(--green)',  def:'Descrição vívida e detalhada que faz o leitor "ver" a cena.', ex:'"O sol dourado beijava a pele, enquanto a brisa suave dançava nos cabelos."', formatos:'Vlog, Narrado, Arrume-se Comigo' },
+  { tipo:'Interpelação',   nome:'Apóstrofe',          cor:'var(--blue)',   def:'Invocação ou interpelação direta a uma pessoa, coisa ou ideia, presente ou ausente.', ex:'"Ó, tempo, volta e me traz de volta a inocência!"', formatos:'Diálogo, Podcast, Manifesto' },
+  { tipo:'Fusão Sensorial',nome:'Sinestesia',         cor:'var(--gold)',   def:'Mistura de sensações de diferentes órgãos dos sentidos.', ex:'"Um cheiro doce e amargo invadia o ar."', formatos:'Arrume-se Comigo, Trivial, Narrado' },
+  { tipo:'Reformulação',   nome:'Paráfrase',          cor:'var(--red)',    def:'Reescrita de um texto ou ideia com outras palavras, mantendo o sentido original.', ex:'"Em outras palavras, o que ele quis dizer é..."', formatos:'Reação, Análise, Palestrinha' },
+  { tipo:'Descrição',      nome:'Perífrase',          cor:'var(--teal)',   def:'Substituição de um nome por uma expressão que o identifique.', ex:'"O rei dos animais" (em vez de "o leão").', formatos:'Bastidores, Narrado, Vlog' },
+  { tipo:'Questionamento', nome:'Pergunta Retórica',  cor:'var(--orange)', def:'Pergunta que não exige resposta, pois a resposta já está implícita ou serve para provocar reflexão.', ex:'"Será que você está comunicando o que realmente quer?"', formatos:'Pergunta Retórica, Gancho Polêmico, Diálogo' },
+  { tipo:'Acumulação',     nome:'Polissíndeto',       cor:'var(--purple)', def:'Repetição de conjunções para enfatizar a enumeração e dar ritmo.', ex:'"E ria, e chorava, e falava, e cantava."', formatos:'Formato Combinado, Série, Vlog' },
+  { tipo:'Contraste',      nome:'Paradoxo',           cor:'var(--red)',    def:'Ideias contraditórias que se anulam, mas que juntas expressam uma verdade profunda.', ex:'"Estou cego e vejo."', formatos:'Análise, Gancho Polêmico, Manifesto' }
+];
 
+const canais = [
+  { name: 'Instagram', icon: '📸', desc: 'Foco em imagem, vídeo curto e carrossel. Estética e inspiração.', sinais: ['Visual', 'Vídeo Curto', 'Texto Curto'], formatos: ['Reels', 'Carrossel', 'Stories', 'Arrume-se Comigo', 'Palestrinha'] },
+  { name: 'TikTok', icon: '🎵', desc: 'Vídeos curtos e virais. Entretenimento e tendências.', sinais: ['Vídeo Curto', 'Áudio', 'Texto Rápido'], formatos: ['Trivial', 'Gancho Polêmico', 'Diálogo', 'Arrume-se Comigo', 'Palestrinha', 'Série Curta', 'Reação'] },
+  { name: 'YouTube', icon: '▶️', desc: 'Vídeos longos, tutoriais, vlogs. Conteúdo aprofundado.', sinais: ['Vídeo Longo', 'Áudio', 'Texto'], formatos: ['Série', 'Vlog', 'Análise', 'Narrado', 'Diálogo', 'Bastidores'] },
+  { name: 'LinkedIn', icon: '💼', desc: 'Conteúdo profissional, artigos, análises. Credibilidade e networking.', sinais: ['Texto', 'Vídeo Explicativo', 'Carrossel'], formatos: ['Análise', 'Palestrinha', 'Lista', 'Manifesto', 'Comparação'] },
+  { name: 'Twitter/X', icon: '𝕏', desc: 'Textos curtos, threads, debates. Opinião e agilidade.', sinais: ['Texto Curto', 'Imagem', 'GIF'], formatos: ['Gancho Polêmico', 'Reação', 'Criativo Preguiçoso', 'Pergunta Retórica'] },
+  { name: 'Podcast', icon: '🎙', desc: 'Conteúdo em áudio, entrevistas, narrativas. Imersão e profundidade.', sinais: ['Áudio', 'Conversa'], formatos: ['Narrado', 'Série', 'Conversa de Bar', 'Análise'] },
+  { name: 'Stories', icon: '👁', desc: 'Conteúdo efêmero, bastidores, interação. Proximidade e autenticidade.', sinais: ['Vídeo Curto', 'Imagem', 'Texto Rápido'], formatos: ['Vlog', 'Conversa de Bar', 'Bastidores', 'Arrume-se Comigo', 'Trivial'] }
+];
+
+const flowNodes = [
+  {icon:'👤',name:'Emissor',code:'E'},
+  {icon:'💬',name:'Mensagem',code:'M'},
+  {icon:'📡',name:'Sinal',code:'S'},
+  {icon:'📺',name:'Canal',code:'C'},
+  {icon:'🎯',name:'Receptor',code:'R'},
+  {icon:'🌍',name:'Contexto',code:'Ctx'},
+  {icon:'⚡',name:'Ruído',code:'∅'},
+  {icon:'💡',name:'Formato Criativo',code:'FM'},
+  {icon:'🗣️',name:'Tom de Voz',code:'TV'},
+  {icon:'📝',name:'Figuras de Linguagem',code:'FL'},
+  {icon:'✨',name:'Transformação',code:'Δ'}
+];
+
+// ── RENDERIZAÇÃO DAS ABAS ──
+function renderFormatos() {
+  const list = document.getElementById('formatList');
+  formatos.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'format-row';
+    row.dataset.id = f.id;
+    row.onclick = () => renderFormatDetail(f.id);
+    row.innerHTML = `
+      <div class="format-num">${f.id}.</div>
+      <div class="format-name">${f.name}</div>
+      <div class="fig-badge" style="border-color:${f.color};color:${f.color};">${f.fig}</div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function renderFormatDetail(id) {
+  const detail = document.getElementById('formatDetail');
+  const f = formatos.find(f => f.id === id);
+  if (!f) return;
+
+  document.querySelectorAll('.format-row').forEach(row => row.classList.remove('selected'));
+  document.querySelector(`.format-row[data-id="${id}"]`).classList.add('selected');
+
+  detail.innerHTML = `
+    <div class="fd-num">Formato #${f.id}</div>
+    <div class="fd-title">${f.name}</div>
+    <div class="fd-desc">${f.desc}</div>
+    <div class="fd-row">
+      <div class="fd-label">Figura de Linguagem Principal</div>
+      <div class="fd-value"><span class="fd-tag" style="border-color:${f.color};color:${f.color};">${f.fig}</span> ${f.figTipo}</div>
+    </div>
+    <div class="fd-row">
+      <div class="fd-label">Tom de Voz Associado</div>
+      <div class="fd-value">${f.tom}</div>
+    </div>
+    <div class="fd-row">
+      <div class="fd-label">Canais Recomendados</div>
+      <div class="fd-value">${f.canal}</div>
+    </div>
+    <div class="fd-row">
+      <div class="fd-label">Exemplo</div>
+      <div class="fd-value">${f.ex}</div>
+    </div>
+    <div class="fd-row">
+      <div class="fd-label">Função Estratégica</div>
+      <div class="fd-value">${f.funcao}</div>
+    </div>
+  `;
+}
+
+function renderCanais() {
+  const table = document.getElementById('canalTable');
+  let html = `
+    <thead>
+      <tr>
+        <th>Canal</th>
+        <th>Sinais Típicos</th>
+        <th>Formatos Recomendados</th>
+      </tr>
+    </thead>
+    <tbody>
+  `;
+  canais.forEach(c => {
+    html += `
+      <tr>
+        <td>${c.icon} ${c.name}</td>
+        <td>${c.sinais.map(s => `<span class="pill" style="border-color:var(--blue);color:var(--blue);">${s}</span>`).join('')}</td>
+        <td>${c.formatos.map(f => `<span class="pill" style="border-color:var(--green);color:var(--green);">${f}</span>`).join('')}</td>
+      </tr>
+    `;
+  });
+  html += `</tbody>`;
+  table.innerHTML = html;
+}
+
+function renderToms() {
+  const grid = document.getElementById('tomGrid');
+  toms.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'tom-card';
+    card.innerHTML = `
+      <div class="tom-icon">${t.icon}</div>
+      <div class="tom-name">${t.name}</div>
+      <div class="tom-desc">${t.desc}</div>
+      <div class="tom-formatos">Formatos: ${t.formatos}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderFiguras() {
+  const grid = document.getElementById('figurasGrid');
+  figuras.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'figura-card';
+    card.innerHTML = `
+      <div class="figura-tipo" style="color:${f.cor};">${f.tipo}</div>
+      <div class="figura-nome" style="color:${f.cor};">${f.nome}</div>
+      <div class="figura-def">${f.def}</div>
+      <div class="figura-ex" style="border-left-color:${f.cor};">${f.ex}</div>
+      <div class="figura-formatos">Formatos: ${f.formatos}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderMatriz() {
+  const table = document.getElementById('matrizTable');
+  let html = `
+    <thead>
+      <tr>
+        <th>Formato</th>
+        <th>Tom de Voz</th>
+        <th>Figura de Linguagem</th>
+        <th>Canal</th>
+      </tr>
+    </thead>
+    <tbody>
+  `;
+  formatos.forEach(f => {
+    html += `
+      <tr>
+        <td>${f.name}</td>
+        <td>${f.tom}</td>
+        <td><span class="pill" style="border-color:${f.color};color:${f.color};">${f.fig}</span></td>
+        <td>${f.canal}</td>
+      </tr>
+    `;
+  });
+  html += `</tbody>`;
+  table.innerHTML = html;
+}
+
+function renderFlow() {
+  const row = document.getElementById('flowRow');
+  if (!row) return;
+  flowNodes.forEach((n, i) => {
+    const node = document.createElement('div');
+    node.className = 'fnode';
+    node.innerHTML = `
+      <div class="fnode-icon">${n.icon}</div>
+      <div class="fnode-name">${n.name}</div>
+      <div class="fnode-code">${n.code}</div>`;
+    row.appendChild(node);
+    if (i < flowNodes.length - 1) {
+      const arrow = document.createElement('div');
+      arrow.className = 'farrow';
+      arrow.innerHTML = `<div class="farrow-line"></div><div class="farrow-head">▶</div>`;
+      row.appendChild(arrow);
+    }
+  });
+}
+
+// Inicializa todas as renderizações ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  renderFormatos();
+  renderCanais();
+  renderToms();
+  renderFiguras();
+  renderMatriz();
+  renderFlow();
+});
+</script>
+</body>
+</html>
