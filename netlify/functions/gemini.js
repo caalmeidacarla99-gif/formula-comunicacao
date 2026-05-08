@@ -3,7 +3,7 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method Not Allowed' }
   }
 
-  try {
+  try { 
     const body = JSON.parse(event.body)
     const system_instruction = body.system_instruction
     const contents = body.contents
