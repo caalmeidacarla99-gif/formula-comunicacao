@@ -102,6 +102,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 .farrow{flex-shrink:0;width:48px;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .farrow-line{width:100%;height:1px;background:var(--ink3);}
 .farrow-head{font-size:0.6rem;color:var(--ink3);}
+.farrow-lbl{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink3);letter-spacing:0.05em;}
 .formats-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
 @media(max-width:900px){.formats-layout{grid-template-columns:1fr;}}
 .format-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
@@ -208,55 +209,55 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
           <span class="bfield-key">ARQUÉTIPOS</span>
           <span class="bfield-label">Quem é o seu personagem?</span>
         </div>
-        <div class="bfield-hint">Escolha até 3 arquétipos que representam sua identidade estável como criadora. Eles definem sua "casa" — como você é reconhecida ao longo do tempo. <em>Obrigatório.</em></div>
-        <div class="arquetipos-grid" id="arquetipos-grid">
-          <div class="arquetipo-card" data-val="Inocente" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🌸 Inocente</div>
-            <div class="arq-desc">Otimista, good vibes, acredita que vai dar certo</div>
+        <div class="bfield-hint">Escolha até 3 arquétipos que representam sua persona de comunicação. Eles influenciam a energia e o estilo das sugestões. <em>Obrigatório.</em></div>
+        <div class="arquetipos-grid" id="arquetiposGrid">
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Inocente">
+            <div class="arq-nome">O Inocente</div>
+            <div class="arq-desc">Otimista, puro, busca a felicidade. Ex: Branca de Neve, Forrest Gump.</div>
           </div>
-          <div class="arquetipo-card" data-val="Pessoa Comum" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🙋 Pessoa Comum</div>
-            <div class="arq-desc">Vulnerável, real, gente como a gente</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Explorador">
+            <div class="arq-nome">O Explorador</div>
+            <div class="arq-desc">Independente, aventureiro, busca liberdade. Ex: Indiana Jones, Dora Aventureira.</div>
           </div>
-          <div class="arquetipo-card" data-val="Heroína" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">⚡ Heroína</div>
-            <div class="arq-desc">Superação, meta, "eu vou vencer"</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Sábio">
+            <div class="arq-nome">O Sábio</div>
+            <div class="arq-desc">Pensador, mentor, busca a verdade e o conhecimento. Ex: Yoda, Dumbledore.</div>
           </div>
-          <div class="arquetipo-card" data-val="Cuidadora" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🤍 Cuidadora</div>
-            <div class="arq-desc">Acolhe, cuida, amiga conselheira</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Herói">
+            <div class="arq-nome">O Herói</div>
+            <div class="arq-desc">Corajoso, determinado, busca provar seu valor. Ex: Mulher Maravilha, Luke Skywalker.</div>
           </div>
-          <div class="arquetipo-card" data-val="Exploradora" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🧭 Exploradora</div>
-            <div class="arq-desc">Questiona padrões, autoconhecimento</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Fora da Lei">
+            <div class="arq-nome">O Fora da Lei</div>
+            <div class="arq-desc">Rebelde, revolucionário, quebra regras. Ex: Coringa, Katniss Everdeen.</div>
           </div>
-          <div class="arquetipo-card" data-val="Rebelde" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🔥 Rebelde</div>
-            <div class="arq-desc">Provoca, sem filtro, questiona tudo</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Mago">
+            <div class="arq-nome">O Mago</div>
+            <div class="arq-desc">Visionário, transformador, busca o extraordinário. Ex: Gandalf, Doutor Estranho.</div>
           </div>
-          <div class="arquetipo-card" data-val="Amante" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">💋 Amante</div>
-            <div class="arq-desc">Estética, sensorialidade, intensidade</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Cara Comum">
+            <div class="arq-nome">O Cara Comum</div>
+            <div class="arq-desc">Pé no chão, empático, busca conexão. Ex: Harry Potter, Frodo Bolseiro.</div>
           </div>
-          <div class="arquetipo-card" data-val="Criadora" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🎨 Criadora</div>
-            <div class="arq-desc">Artista, inventa formatos, originalidade</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Amante">
+            <div class="arq-nome">O Amante</div>
+            <div class="arq-desc">Apaixonado, sensual, busca intimidade e prazer. Ex: Afrodite, Romeu e Julieta.</div>
           </div>
-          <div class="arquetipo-card" data-val="Divertida" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">😂 Divertida</div>
-            <div class="arq-desc">Humor, memes, autodeboche</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Criador">
+            <div class="arq-nome">O Criador</div>
+            <div class="arq-desc">Inovador, artista, busca dar forma a uma visão. Ex: Leonardo da Vinci, Steve Jobs.</div>
           </div>
-          <div class="arquetipo-card" data-val="Sábia" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">🦉 Sábia</div>
-            <div class="arq-desc">Didática, analítica, contextualiza</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Governante">
+            <div class="arq-nome">O Governante</div>
+            <div class="arq-desc">Líder, controlador, busca ordem e poder. Ex: Rainha Elizabeth, César.</div>
           </div>
-          <div class="arquetipo-card" data-val="Maga" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">✨ Maga</div>
-            <div class="arq-desc">Transforma, revela o oculto, poética</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Cuidador">
+            <div class="arq-nome">O Cuidador</div>
+            <div class="arq-desc">Altruísta, protetor, busca servir e ajudar. Ex: Madre Teresa, Super-Homem.</div>
           </div>
-          <div class="arquetipo-card" data-val="Governante" onclick="toggleArquetipo(this)">
-            <div class="arq-nome">👑 Governante</div>
-            <div class="arq-desc">Lidera, organiza, assertiva</div>
+          <div class="arquetipo-card" onclick="toggleArquetipo(this)" data-val="O Bobo da Corte">
+            <div class="arq-nome">O Bobo da Corte</div>
+            <div class="arq-desc">Divertido, brincalhão, busca alegria e leveza. Ex: O Máskara, Deadpool.</div>
           </div>
         </div>
       </div>
@@ -267,8 +268,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
           <span class="bfield-key">WHAT</span>
           <span class="bfield-label">Qual é a mensagem?</span>
         </div>
-        <div class="bfield-hint">O núcleo do que você quer comunicar. Uma ideia, crença, insight ou oferta. <em>Obrigatório.</em></div>
-        <textarea id="b-what" placeholder='Ex: "Consistência vence talento na criação de conteúdo"'></textarea>
+        <div class="bfield-hint">O núcleo do que você quer comunicar. Seja específico: uma ideia, uma crença, um insight, uma oferta. <em>Obrigatório.</em></div>
+        <textarea id="b-what" placeholder='Ex: "Como a comunicação não-verbal pode te ajudar a ser mais confiante em reuniões online"'></textarea>
       </div>
 
       <!-- WHO -->
@@ -277,8 +278,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
           <span class="bfield-key">WHO</span>
           <span class="bfield-label">Para quem é?</span>
         </div>
-        <div class="bfield-hint">Descreva seu público: dores, desejos, nível de consciência. <em>Obrigatório.</em></div>
-        <textarea id="b-who" placeholder='Ex: "Mulheres 25-34 anos que querem crescer no Instagram mas travam na hora de criar conteúdo"'></textarea>
+        <div class="bfield-hint">Descreva seu público: dores, desejos, nível de consciência, vocabulário que usam. <em>Obrigatório.</em></div>
+        <textarea id="b-who" placeholder='Ex: "Mulheres de 25-34 anos, profissionais, que buscam crescimento na carreira e se sentem inseguras ao se comunicar no ambiente de trabalho"'></textarea>
       </div>
 
       <!-- WHY -->
@@ -286,20 +287,20 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
         <div class="bfield-header">
           <span class="bfield-key">WHY</span>
           <span class="bfield-label">Qual a função da mensagem?</span>
+          <span class="bfield-optional">Opcional</span>
         </div>
-        <div class="bfield-hint">O que você quer causar?</div>
-        <div class="chip-row" id="why-chips">
-          <span class="chip" data-val="gerar identificação" onclick="toggleChip(this)">🤝 Identificação</span>
-          <span class="chip" data-val="educar e posicionar autoridade" onclick="toggleChip(this)">🎓 Autoridade</span>
-          <span class="chip" data-val="gerar polêmica e debate" onclick="toggleChip(this)">🔥 Polêmica</span>
-          <span class="chip" data-val="viralizar e aumentar alcance" onclick="toggleChip(this)">📡 Viralizar</span>
-          <span class="chip" data-val="vender ou converter" onclick="toggleChip(this)">💰 Vender</span>
-          <span class="chip" data-val="entreter e criar conexão emocional" onclick="toggleChip(this)">😂 Entreter</span>
-          <span class="chip" data-val="inspirar e motivar" onclick="toggleChip(this)">✨ Inspirar</span>
-          <span class="chip" data-val="gerar curiosidade e engajamento" onclick="toggleChip(this)">🎣 Curiosidade</span>
-          <span class="chip" data-val="construir comunidade e pertencimento" onclick="toggleChip(this)">🫂 Comunidade</span>
+        <div class="bfield-hint">O que você quer causar? Escolha um ou mais objetivos.</div>
+        <div class="chip-row" id="b-why">
+          <div class="chip" onclick="toggleChip(this)" data-val="Identificação">🤝 Identificação</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Autoridade">🎓 Autoridade</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Polêmica">🔥 Polêmica</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Viralizar">📡 Viralizar</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Vender">💰 Vender</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Entreter">😂 Entreter</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Inspirar">✨ Inspirar</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Curiosidade">🎣 Curiosidade</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Comunidade">🫂 Comunidade</div>
         </div>
-        <input id="b-why-custom" type="text" placeholder="Ou descreva com suas palavras..." style="margin-top:0.5rem"/>
       </div>
 
       <!-- WHEN -->
@@ -307,14 +308,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
         <div class="bfield-header">
           <span class="bfield-key">WHEN</span>
           <span class="bfield-label">Quando vai postar?</span>
-          <span class="bfield-optional">opcional</span>
+          <span class="bfield-optional">Opcional</span>
         </div>
-        <div class="bfield-hint">Quando este conteúdo vai ao ar?</div>
-        <div class="chip-row" id="when-chips">
-          <span class="chip" data-val="hoje" onclick="toggleChip(this)">⚡ Hoje</span>
-          <span class="chip" data-val="essa semana" onclick="toggleChip(this)">📅 Essa semana</span>
-          <span class="chip" data-val="data especial ou comemorativa" onclick="toggleChip(this)">🎯 Data especial</span>
-          <span class="chip" data-val="para o estoque, sem data definida" onclick="toggleChip(this)">📦 Para o estoque</span>
+        <div class="bfield-hint">Contexto de timing influencia o tom e urgência da mensagem.</div>
+        <div class="chip-row" id="b-when">
+          <div class="chip" onclick="toggleChip(this)" data-val="Hoje">⚡ Hoje</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Essa semana">📅 Essa semana</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Data especial">🎯 Data especial</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Para o estoque">♾️ Para o estoque</div>
         </div>
       </div>
 
@@ -322,17 +323,18 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
       <div class="bfield">
         <div class="bfield-header">
           <span class="bfield-key">WHERE</span>
-          <span class="bfield-label">Qual canal?</span>
-          <span class="bfield-optional">opcional</span>
+          <span class="bfield-label">Qual rede social?</span>
+          <span class="bfield-optional">Opcional</span>
         </div>
-        <div class="chip-row" id="where-chips">
-          <span class="chip" data-val="Instagram" onclick="toggleChip(this)">📸 Instagram</span>
-          <span class="chip" data-val="TikTok" onclick="toggleChip(this)">🎵 TikTok</span>
-          <span class="chip" data-val="YouTube" onclick="toggleChip(this)">▶️ YouTube</span>
-          <span class="chip" data-val="LinkedIn" onclick="toggleChip(this)">💼 LinkedIn</span>
-          <span class="chip" data-val="Twitter/X" onclick="toggleChip(this)">𝕏 Twitter/X</span>
-          <span class="chip" data-val="Podcast" onclick="toggleChip(this)">🎙 Podcast</span>
-          <span class="chip" data-val="Stories" onclick="toggleChip(this)">👁 Stories</span>
+        <div class="bfield-hint">Cada plataforma tem gramática própria. Deixe em branco para sugestões multi-canal.</div>
+        <div class="chip-row" id="b-where">
+          <div class="chip" onclick="toggleChip(this)" data-val="Instagram">📸 Instagram</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="TikTok">🎵 TikTok</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="YouTube">▶️ YouTube</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="LinkedIn">💼 LinkedIn</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Twitter/X">𝕏 Twitter/X</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Podcast">🎙 Podcast</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Stories">👁 Stories</div>
         </div>
       </div>
 
@@ -341,15 +343,16 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
         <div class="bfield-header">
           <span class="bfield-key">HOW</span>
           <span class="bfield-label">Formato preferido?</span>
-          <span class="bfield-optional">opcional</span>
+          <span class="bfield-optional">Opcional</span>
         </div>
-        <div class="chip-row" id="how-chips">
-          <span class="chip" data-val="Reels / vídeo curto" onclick="toggleChip(this)">🎬 Reels</span>
-          <span class="chip" data-val="Carrossel" onclick="toggleChip(this)">📑 Carrossel</span>
-          <span class="chip" data-val="Stories interativo" onclick="toggleChip(this)">📲 Stories</span>
-          <span class="chip" data-val="Vídeo longo" onclick="toggleChip(this)">📹 Vídeo longo</span>
-          <span class="chip" data-val="Texto / thread" onclick="toggleChip(this)">✍️ Texto</span>
-          <span class="chip" data-val="Podcast / áudio" onclick="toggleChip(this)">🎧 Áudio</span>
+        <div class="bfield-hint">Deixe em branco e o sistema vai sugerir os melhores formatos para a sua mensagem.</div>
+        <div class="chip-row" id="b-how">
+          <div class="chip" onclick="toggleChip(this)" data-val="Reels">🎬 Reels</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Carrossel">📑 Carrossel</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Stories">📲 Stories</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Vídeo longo">📹 Vídeo longo</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Texto">✍️ Texto</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Áudio">🎧 Áudio</div>
         </div>
       </div>
 
@@ -357,28 +360,29 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
       <div class="bfield">
         <div class="bfield-header">
           <span class="bfield-key">HOW LONG</span>
-          <span class="bfield-label">Tempo de produção?</span>
-          <span class="bfield-optional">opcional</span>
+          <span class="bfield-label">Tempo disponível para produção?</span>
+          <span class="bfield-optional">Opcional</span>
         </div>
-        <div class="chip-row" id="howlong-chips">
-          <span class="chip" data-val="menos de 30 minutos" onclick="toggleChip(this)">⚡ <30 min</span>
-          <span class="chip" data-val="meio período" onclick="toggleChip(this)">🕐 Meio período</span>
-          <span class="chip" data-val="1 dia completo" onclick="toggleChip(this)">📆 1 dia</span>
-          <span class="chip" data-val="produção elaborada, vários dias" onclick="toggleChip(this)">🎬 Produção completa</span>
+        <div class="bfield-hint">Isso ajuda a calibrar a complexidade do formato sugerido.</div>
+        <div class="chip-row" id="b-howlong">
+          <div class="chip" onclick="toggleChip(this)" data-val="<30 min">⚡ <30 min</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Meio período">🕐 Meio período</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="1 dia">📆 1 dia</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="Produção completa">🎬 Produção completa</div>
         </div>
       </div>
 
-      <button class="build-btn" id="buildBtn" onclick="buildContent()">
-        ✦ Gerar Sugestões de Conteúdo
-      </button>
+      <button class="build-btn" id="buildBtn" onclick="buildContent()">✦ Gerar Sugestões de Conteúdo</button>
+      <div class="bfield-hint" style="text-align:center;">Preencha ao menos WHAT + WHO e clique em gerar</div>
+
     </div>
 
-    <!-- RESULT -->
     <div class="builder-result">
+      <div class="res-label">Sugestões</div>
       <div class="result-box" id="resultBox">
-        <div class="result-empty" id="resultEmpty">
+        <div class="result-empty">
           <div class="result-empty-icon">✦</div>
-          <div class="result-empty-txt">Preencha EMISSOR + ARQUÉTIPOS + WHAT + WHO<br>e clique em gerar</div>
+          <div class="result-empty-txt">Preencha os campos e clique em gerar para ver as sugestões aqui.</div>
         </div>
       </div>
     </div>
@@ -391,15 +395,15 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
   <div class="formula-grid">
     <div class="formula-cell"><div class="fc-var" style="color:var(--gold)">E</div><div class="fc-name">Emissor</div><div class="fc-desc">Quem fala. Carrega credibilidade (ethos), repertório cultural, intenção e viés. Nunca neutro.</div></div>
     <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">M</div><div class="fc-name">Mensagem</div><div class="fc-desc">O conteúdo codificado — verbal, simbólico, emocional. Envolve o quê se diz e como é estruturado.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">S</div><div class="fc-name">Sinal</div><div class="fc-desc">A forma concreta da mensagem transmitida: áudio, vídeo, texto, imagem, gesto.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--blue)">C</div><div class="fc-name">Canal</div><div class="fc-desc">O meio de transmissão. Cada canal tem sua gramática própria.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--red)">R</div><div class="fc-name">Receptor</div><div class="fc-desc">Quem recebe e decodifica. Carrega seu próprio contexto, emoções e filtros.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--orange)">Ctx</div><div class="fc-name">Contexto</div><div class="fc-desc">Ambiente cultural, histórico, relacional e situacional que molda todo o processo.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--red)">⚡</div><div class="fc-name">Ruído</div><div class="fc-desc">Toda interferência que distorce a mensagem: físico, semântico, cultural, emocional.</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--green)">FM</div><div class="fc-name">Formato Criativo</div><div class="fc-desc">A estrutura narrativa escolhida: série, análise, analogia, diálogo, vlog…</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">TV</div><div class="fc-name">Tom de Voz</div><div class="fc-desc">A identidade verbal: didático, provocativo, íntimo, humorístico…</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">FL</div><div class="fc-name">Figuras de Linguagem</div><div class="fc-desc">Ferramentas retóricas que amplificam o impacto: metáfora, ironia, anáfora…</div></div>
-    <div class="formula-cell"><div class="fc-var" style="color:var(--gold)">Δ</div><div class="fc-name">Transformação</div><div class="fc-desc">O impacto real: mudança de crença, emoção, comportamento ou relação.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">S</div><div class="fc-name">Sinal</div><div class="fc-desc">A forma concreta da mensagem transmitida: áudio, vídeo, texto, imagem, gesto. A matéria do conteúdo.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--blue)">C</div><div class="fc-name">Canal</div><div class="fc-desc">O meio de transmissão: TikTok, Instagram, YouTube, podcast, presencial. Cada canal tem sua gramática própria.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--red)">R</div><div class="fc-name">Receptor</div><div class="fc-desc">Quem recebe e decodifica. Carrega seu próprio contexto, emoções, repertório e filtros. Devolve feedback.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--orange)">Ctx</div><div class="fc-name">Contexto</div><div class="fc-desc">Ambiente cultural, histórico, relacional e situacional que molda todo o processo comunicativo.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--red)">⚡</div><div class="fc-name">Ruído</div><div class="fc-desc">Toda interferência que distorce a mensagem: físico, semântico, cultural, emocional, técnico.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--green)">FM</div><div class="fc-name">Formato Criativo</div><div class="fc-desc">A estrutura narrativa escolhida: série, análise, analogia, diálogo, vlog… O molde que dá forma ao conteúdo.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--purple)">TV</div><div class="fc-name">Tom de Voz</div><div class="fc-desc">A identidade sonora e verbal: didático, provocativo, íntimo, humorístico… Como a mensagem é temperada.</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--teal)">FL</div><div class="fc-name">Figuras de Linguagem</div><div class="fc-desc">Ferramentas retóricas que amplificam o impacto: metáfora, ironia, anáfora, hipérbole, antítese…</div></div>
+    <div class="formula-cell"><div class="fc-var" style="color:var(--gold)">Δ</div><div class="fc-name">Transformação</div><div class="fc-desc">O impacto real: mudança de crença, emoção, comportamento ou relação. A comunicação que não transforma é ruído.</div></div>
   </div>
   <div class="sec-title">Fluxo Completo</div>
   <div class="flow-row" id="flowRow"></div>
@@ -517,7 +521,7 @@ const formatos = [
   { id:12, name:'Conversa de Bar',     fig:'Coloquialismo',figTipo:'Registro',     color:'var(--orange)', desc:'Linguagem informal, sem roteiro, como conversa entre amigos.', tom:'Íntimo e Informal', canal:'TikTok, Stories, Podcast', ex:'"Cara, você não vai acreditar..."', funcao:'Criar proximidade.' },
   { id:13, name:'Palestrinha',         fig:'Enumeração',   figTipo:'Organização',  color:'var(--purple)', desc:'Estrutura de aulinha curta: problema → desenvolvimento → solução.', tom:'Didático', canal:'TikTok, Instagram', ex:'"3 pontos sobre X: 1)... 2)... 3)..."', funcao:'Educar, demonstrar autoridade.' },
   { id:14, name:'Comparação',          fig:'Antítese',     figTipo:'Contraste',    color:'var(--teal)',   desc:'Coloca dois elementos lado a lado para revelar diferenças reveladoras.', tom:'Analítico ou Provocativo', canal:'YouTube, TikTok, LinkedIn', ex:'"X vs Y: o que ninguém te conta"', funcao:'Facilitar decisões, gerar engajamento.' },
-  { id:15, name:'Vlog',                fig:'Hipotipose',   figTipo:'Vivacidade',   color:'var(--green)',  desc:'Registro do cotidiano como conteúdo. A vida como narrativa contínua.', tom:'Íntimo e Autêntico', canal:'YouTube, TikTok, Stories', ex:'Câmera na mão,dia a dia como conteúdo.', funcao:'Criar conexão, fidelizar.' },
+  { id:15, name:'Vlog',                fig:'Hipotipose',   figTipo:'Vivacidade',   color:'var(--green)',  desc:'Registro do cotidiano como conteúdo. A vida como narrativa contínua.', tom:'Íntimo e Autêntico', canal:'YouTube, TikTok, Stories', ex:'Câmera na mão, dia a dia como conteúdo.', funcao:'Criar conexão, fidelizar.' },
   { id:16, name:'Diálogo',             fig:'Apóstrofe',     figTipo:'Interpelação',  color:'var(--blue)',   desc:'Conversa simulada ou real com outra pessoa. Dinâmica e envolvente.', tom:'Conversacional', canal:'TikTok, YouTube, Podcast', ex:'"Me perguntaram: X. Minha resposta foi..."', funcao:'Humanizar, gerar identificação.' },
   { id:17, name:'Arrume-se Comigo',    fig:'Sinestesia',    figTipo:'Fusão Sensorial',color:'var(--gold)', desc:'Conteúdo de rotina de beleza/preparação com narração simultânea sobre outro tema.', tom:'Íntimo e Multissensorial', canal:'TikTok, Instagram, YouTube', ex:'Se arrumando enquanto fala sobre comunicação.', funcao:'Engajar, entreter, educar.' },
   { id:18, name:'Reação',              fig:'Paráfrase',     figTipo:'Reformulação',  color:'var(--red)',    desc:'Comentar e reagir a conteúdo de terceiros, adicionando perspectiva própria.', tom:'Analítico ou Opinativo', canal:'TikTok, YouTube, Twitter/X', ex:'Dueto ou resposta a vídeo viral.', funcao:'Gerar debate, mostrar posicionamento.' },
@@ -584,7 +588,134 @@ const flowNodes = [
   {icon:'✨',name:'Transformação',code:'Δ'}
 ];
 
-// ── RENDERIZAÇÃO DAS ABAS ──
+// ── FUNÇÕES DE INTERFACE ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+function toggleArquetipo(el) {
+  const selected = document.querySelectorAll('.arquetipo-card.selected');
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+  } else {
+    if (selected.length >= 3) {
+      alert('Escolha no máximo 3 arquétipos.');
+      return;
+    }
+    el.classList.add('selected');
+  }
+}
+
+function getChips(id) {
+  return [...document.querySelectorAll(`#${id} .chip.selected`)]
+    .map(c => c.dataset.val).join(', ');
+}
+
+function getArquetipos() {
+  return [...document.querySelectorAll('#arquetiposGrid .arquetipo-card.selected')]
+    .map(c => c.dataset.val).join(', ');
+}
+
+// ── FUNÇÃO PRINCIPAL DE GERAÇÃO DE CONTEÚDO ──
+async function buildContent() {
+  const emissor = document.getElementById('b-emissor').value;
+  const arquetipos = getArquetipos();
+  const what = document.getElementById('b-what').value;
+  const who = document.getElementById('b-who').value;
+  const why = getChips('b-why');
+  const when = getChips('b-when');
+  const where = getChips('b-where');
+  const how = getChips('b-how');
+  const howlong = getChips('b-howlong');
+
+  if (!emissor || !arquetipos || !what || !who) {
+    alert('Por favor, preencha os campos obrigatórios: Emissor, Arquétipos, WHAT e WHO.');
+    return;
+  }
+
+  const buildBtn = document.getElementById('buildBtn');
+  const resultBox = document.getElementById('resultBox');
+  buildBtn.disabled = true;
+  resultBox.innerHTML = `
+    <div class="result-loading">
+      <div class="spinner"></div>
+      <div class="loading-txt">Gerando sugestões...</div>
+    </div>
+  `;
+
+  const userPrompt = `EMISSOR: ${emissor}\nARQUÉTIPOS: ${arquetipos}\nWHAT: ${what}\nWHO: ${who}\nWHY: ${why||'não informado'}\nWHEN: ${when||'não informado'}\nWHERE: ${where||'não informado'}\nHOW: ${how||'não informado'}\nHOW LONG: ${howlong||'não informado'}`;
+
+  try {
+    const response = await fetch('/.netlify/functions/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: [{ parts: [{ text: userPrompt }] }]
+      })
+    });
+
+    const data = await response.json();
+    const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    renderResult(parsed.sugestoes);
+
+  } catch (e) {
+    resultBox.innerHTML = '<div class="result-empty"><div class="result-empty-icon">⚠️</div><div class="result-empty-txt">Erro: ' + e.message + '</div></div>';
+  } finally {
+    buildBtn.disabled = false;
+  }
+}
+
+// ── RENDER RESULT ──
+function renderResult(sugestoes) {
+  const box = document.getElementById('resultBox');
+  box.innerHTML = '';
+  sugestoes.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'sugestao-card rank-' + s.rank;
+    card.innerHTML = `
+      <div class="sug-rank">✦ OPÇÃO ${s.rank}</div>
+      <div class="sug-titulo">${s.titulo}</div>
+      <div class="sug-formato">${s.formato_criativo} · ${s.formato_base}</div>
+      <div class="sug-section"><div class="sug-section-label">Por que esta opção?</div><div class="sug-section-content">${s.justificativa_rank}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Arquétipo de cena</div><div class="sug-section-content">${s.arquetipo_de_cena}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Tom de voz</div><div class="sug-section-content">${s.tom_de_voz}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Figuras recomendadas</div><div class="sug-tags">${s.figuras_recomendadas.map(f=>'<span class="sug-tag">'+f+' — '+(s.por_que_cada_figura[f]||'')+'</span>').join('')}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Gancho sugerido</div><div class="gancho-box">${s.gancho_sugerido}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Estrutura narrativa</div>
+        <div class="roteiro-box">
+          <div class="roteiro-phase"><div class="roteiro-phase-title">⚡ Gatilho</div><div class="roteiro-phase-content">${s.estrutura_narrativa.gatilho}</div></div>
+          <div class="roteiro-phase"><div class="roteiro-phase-title">→ Rotina</div><div class="roteiro-phase-content">${s.estrutura_narrativa.rotina}</div></div>
+          <div class="roteiro-phase"><div class="roteiro-phase-title">✦ Recompensa</div><div class="roteiro-phase-content">${s.estrutura_narrativa.recompensa}</div></div>
+        </div>
+      </div>
+      <div class="sug-section"><div class="sug-section-label">Gatilho viral</div><div class="sug-section-content">${s.gatilho_viral}</div></div>
+      <div class="sug-section"><div class="sug-section-label">Tempo estimado</div><div class="sug-section-content">${s.tempo_estimado}</div></div>
+      <button class="copy-btn" onclick="copyCard(this)">↗ Copiar resumo</button>`;
+    box.appendChild(card);
+  });
+}
+
+// ── COPIAR CARD ──
+function copyCard(btn) {
+  const card = btn.closest('.sugestao-card');
+  const text = card.innerText.replace('↗ Copiar resumo', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => btn.textContent = '↗ Copiar resumo', 2000);
+  });
+}
+
+// ── RENDERIZAÇÃO DOS PAINÉIS DE DADOS ──
 function renderFormatos() {
   const list = document.getElementById('formatList');
   formatos.forEach(f => {
@@ -751,3 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+
+
+
