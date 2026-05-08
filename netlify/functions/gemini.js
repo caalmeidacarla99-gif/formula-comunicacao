@@ -3,12 +3,13 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method Not Allowed' }
   }
 
-  try { 
+  try {
     const body = JSON.parse(event.body)
     const system_instruction = body.system_instruction
     const contents = body.contents
 const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY_formula_comunicacao}`,
+  // MUDANÇA AQUI: de gemini-pro para gemini-1.0-pro
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${process.env.GEMINI_API_KEY_formula_comunicacao}`,
   {
     method: 'POST',
     headers: {
