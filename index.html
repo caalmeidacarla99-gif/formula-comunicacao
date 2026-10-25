@@ -88,6 +88,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 .roteiro-phase-content{font-size:0.8rem;line-height:1.65;color:var(--ink2);border-left:1px solid var(--gold-l);padding-left:0.75rem;}
 .copy-btn{margin-top:1rem;padding:0.6rem 1rem;background:var(--bg2);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;color:var(--ink3);transition:all 0.2s;width:100%;}
 .copy-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+.roteiro-btn{margin-top:0.5rem;padding:0.6rem 1rem;background:var(--blue);border:1px solid var(--blue);font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;color:#fff;transition:all 0.2s;width:100%;}
+.roteiro-btn:hover{opacity:0.85;}
+.roteiro-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.roteiro-output{margin-top:1rem;padding:1rem;background:var(--bg2);border:1px solid var(--blue);border-left:3px solid var(--blue);font-size:0.75rem;line-height:1.7;white-space:pre-wrap;color:var(--ink2);}
 .formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:3rem;}
 .formula-cell{background:var(--bg);padding:1.5rem;}
 .fc-var{font-family:'Instrument Serif',serif;font-size:2.5rem;font-style:italic;line-height:1;margin-bottom:0.5rem;}
@@ -147,6 +151,15 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 .figura-formatos{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink3);}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .panel.active{animation:fadeIn 0.3s ease;}
+.res-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;color:var(--ink3);text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}
+.res-label::after{content:'';flex:1;height:1px;background:var(--line);}
+.apikey-bar{width:100%;display:flex;align-items:center;gap:0.6rem;padding-top:1.25rem;border-top:1px solid var(--line);margin-top:1rem;flex-basis:100%;}
+.apikey-label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--ink3);text-transform:uppercase;white-space:nowrap;}
+.apikey-input{background:var(--bg2);border:1px solid var(--line);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:0.35rem 0.65rem;outline:none;flex:1;max-width:320px;transition:border-color 0.2s;}
+.apikey-input:focus{border-color:var(--gold);}
+.apikey-save{padding:0.35rem 0.75rem;background:var(--ink);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+.apikey-save:hover{background:var(--gold);}
+.apikey-status{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--green);}
 </style>
 </head>
 <body>
@@ -156,6 +169,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
   <div class="header-left">
     <div class="version">Fórmula da Comunicação · v4.0</div>
     <h1>Fórmula da<br><em>Comunicação</em></h1>
+  </div>
+  <div class="apikey-bar">
+    <span class="apikey-label">Chave API Anthropic</span>
+    <input type="password" id="apiKeyInput" class="apikey-input" placeholder="sk-ant-api…">
+    <button class="apikey-save" onclick="saveApiKey()">Salvar</button>
+    <span class="apikey-status" id="apiKeyStatus"></span>
   </div>
   <div class="header-right">
     <div class="formula-label">Fórmula Expandida</div>
@@ -365,11 +384,25 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
         </div>
         <div class="bfield-hint">Isso ajuda a calibrar a complexidade do formato sugerido.</div>
         <div class="chip-row" id="b-howlong">
-          <div class="chip" onclick="toggleChip(this)" data-val="<30 min">⚡ <30 min</div>
+          <div class="chip" onclick="toggleChip(this)" data-val="<30 min">⚡ &lt;30 min</div>
           <div class="chip" onclick="toggleChip(this)" data-val="Meio período">🕐 Meio período</div>
           <div class="chip" onclick="toggleChip(this)" data-val="1 dia">📆 1 dia</div>
           <div class="chip" onclick="toggleChip(this)" data-val="Produção completa">🎬 Produção completa</div>
         </div>
+      </div>
+
+      <!-- INSPIRAÇÃO -->
+      <div class="bfield">
+        <div class="bfield-header">
+          <span class="bfield-key">INSPIRAÇÃO</span>
+          <span class="bfield-label">Posts que servem de base</span>
+          <span class="bfield-optional">Opcional</span>
+        </div>
+        <div class="bfield-hint">Cole legendas, roteiros ou transcrições de posts que você gosta (separe cada um com uma linha contendo apenas ---). Se quiser, anexe até 3 prints. O sistema extrai a estrutura, o ritmo e o tipo de gancho, sem copiar frases nem a ideia.</div>
+        <textarea id="b-inspiracao" style="min-height:120px;" placeholder="Post 1: cole aqui o texto, a legenda ou o roteiro.&#10;---&#10;Post 2: ..."></textarea>
+        <input type="file" id="b-inspiracao-img" accept="image/*" multiple style="padding:0.5rem;">
+        <div class="bfield-hint" id="b-inspiracao-info"></div>
+        <textarea id="b-inspiracao-nota" style="min-height:60px;" placeholder="O que você quer aproveitar? Ex: o ritmo seco, a virada no final, o humor. E o que NÃO quer repetir?"></textarea>
       </div>
 
       <button class="build-btn" id="buildBtn" onclick="buildContent()">✦ Gerar Sugestões de Conteúdo</button>
@@ -473,6 +506,9 @@ ESSA SEMANA → equilíbrio profundidade e agilidade
 DATA ESPECIAL → explore o contexto emocional da data
 PARA O ESTOQUE → profundidade e atemporalidade
 
+SE HOUVER INSPIRAÇÃO (textos e/ou imagens de posts de referência):
+Trate como a base principal. Extraia o mecanismo de cada referência: estrutura, ritmo das frases, tipo de gancho, onde está a virada e como termina. Adapte esse mecanismo à voz do emissor e ao briefing. NÃO copie frases, piadas nem a ideia central. Quando a inspiração conflitar com o Loop do Hábito ou com a gramática dos canais, a inspiração vence. As 3 sugestões devem ser diferentes entre si, e pelo menos uma deve quebrar o formato esperado do canal. Evite abertura genérica e frases de efeito prontas.
+
 Gere EXATAMENTE 3 sugestões rankeadas em JSON válido com esta estrutura:
 {
   "sugestoes": [
@@ -522,13 +558,13 @@ const formatos = [
   { id:13, name:'Palestrinha',         fig:'Enumeração',   figTipo:'Organização',  color:'var(--purple)', desc:'Estrutura de aulinha curta: problema → desenvolvimento → solução.', tom:'Didático', canal:'TikTok, Instagram', ex:'"3 pontos sobre X: 1)... 2)... 3)..."', funcao:'Educar, demonstrar autoridade.' },
   { id:14, name:'Comparação',          fig:'Antítese',     figTipo:'Contraste',    color:'var(--teal)',   desc:'Coloca dois elementos lado a lado para revelar diferenças reveladoras.', tom:'Analítico ou Provocativo', canal:'YouTube, TikTok, LinkedIn', ex:'"X vs Y: o que ninguém te conta"', funcao:'Facilitar decisões, gerar engajamento.' },
   { id:15, name:'Vlog',                fig:'Hipotipose',   figTipo:'Vivacidade',   color:'var(--green)',  desc:'Registro do cotidiano como conteúdo. A vida como narrativa contínua.', tom:'Íntimo e Autêntico', canal:'YouTube, TikTok, Stories', ex:'Câmera na mão, dia a dia como conteúdo.', funcao:'Criar conexão, fidelizar.' },
-  { id:16, name:'Diálogo',             fig:'Apóstrofe',     figTipo:'Interpelação',  color:'var(--blue)',   desc:'Conversa simulada ou real com outra pessoa. Dinâmica e envolvente.', tom:'Conversacional', canal:'TikTok, YouTube, Podcast', ex:'"Me perguntaram: X. Minha resposta foi..."', funcao:'Humanizar, gerar identificação.' },
-  { id:17, name:'Arrume-se Comigo',    fig:'Sinestesia',    figTipo:'Fusão Sensorial',color:'var(--gold)', desc:'Conteúdo de rotina de beleza/preparação com narração simultânea sobre outro tema.', tom:'Íntimo e Multissensorial', canal:'TikTok, Instagram, YouTube', ex:'Se arrumando enquanto fala sobre comunicação.', funcao:'Engajar, entreter, educar.' },
-  { id:18, name:'Reação',              fig:'Paráfrase',     figTipo:'Reformulação',  color:'var(--red)',    desc:'Comentar e reagir a conteúdo de terceiros, adicionando perspectiva própria.', tom:'Analítico ou Opinativo', canal:'TikTok, YouTube, Twitter/X', ex:'Dueto ou resposta a vídeo viral.', funcao:'Gerar debate, mostrar posicionamento.' },
-  { id:19, name:'Lista',               fig:'Gradação',      figTipo:'Progressão',    color:'var(--purple)', desc:'Sequência numerada de insights, dicas ou revelações. Simples e eficaz.', tom:'Direto e Informativo', canal:'Instagram, LinkedIn, TikTok', ex:'"5 coisas que ninguém te conta sobre X"', funcao:'Organizar informação, facilitar consumo.' },
-  { id:20, name:'Bastidores',          fig:'Perífrase',     figTipo:'Descrição',     color:'var(--teal)',   desc:'Mostrar o processo, os erros, o que acontece antes do resultado final.', tom:'Autêntico e Transparente', canal:'Stories, TikTok, YouTube', ex:'"O que acontece antes do post ir ao ar"', funcao:'Humanizar, construir confiança.' },
-  { id:21, name:'Pergunta Retórica',   fig:'Pergunta Retórica',figTipo:'Questionamento',color:'var(--orange)','desc':'Abre com uma pergunta que o público já sente mas nunca articulou.', tom:'Provocativo ou Reflexivo', canal:'Instagram, LinkedIn, TikTok', ex:'"Você já percebeu que todo mundo se comunica, mas quase ninguém é ouvido?"', funcao:'Gerar reflexão, prender atenção.' },
-  { id:22, name:'Manifesto',           fig:'Anáfora',       figTipo:'Repetição',     color:'var(--ink)',    desc:'Declaração de crença ou posicionamento. Estilo assertivo, quase poético.', tom:'Assertivo e Inspirador', canal:'Instagram, LinkedIn, YouTube', ex:'"Eu acredito que comunicação é poder. Sempre foi."', funcao:'Posicionar, inspirar, atrair tribo.' }
+  { id:16, name:'Diálogo',             fig:'Apóstrofe',    figTipo:'Interpelação', color:'var(--blue)',   desc:'Conversa simulada ou real com outra pessoa. Dinâmica e envolvente.', tom:'Conversacional', canal:'TikTok, YouTube, Podcast', ex:'"Me perguntaram: X. Minha resposta foi..."', funcao:'Humanizar, gerar identificação.' },
+  { id:17, name:'Arrume-se Comigo',    fig:'Sinestesia',   figTipo:'Fusão Sensorial',color:'var(--gold)', desc:'Conteúdo de rotina de beleza/preparação com narração simultânea sobre outro tema.', tom:'Íntimo e Multissensorial', canal:'TikTok, Instagram, YouTube', ex:'Se arrumando enquanto fala sobre comunicação.', funcao:'Engajar, entreter, educar.' },
+  { id:18, name:'Reação',              fig:'Paráfrase',    figTipo:'Reformulação',  color:'var(--red)',    desc:'Comentar e reagir a conteúdo de terceiros, adicionando perspectiva própria.', tom:'Analítico ou Opinativo', canal:'TikTok, YouTube, Twitter/X', ex:'Dueto ou resposta a vídeo viral.', funcao:'Gerar debate, mostrar posicionamento.' },
+  { id:19, name:'Lista',               fig:'Gradação',     figTipo:'Progressão',    color:'var(--purple)', desc:'Sequência numerada de insights, dicas ou revelações. Simples e eficaz.', tom:'Direto e Informativo', canal:'Instagram, LinkedIn, TikTok', ex:'"5 coisas que ninguém te conta sobre X"', funcao:'Organizar informação, facilitar consumo.' },
+  { id:20, name:'Bastidores',          fig:'Perífrase',    figTipo:'Descrição',     color:'var(--teal)',   desc:'Mostrar o processo, os erros, o que acontece antes do resultado final.', tom:'Autêntico e Transparente', canal:'Stories, TikTok, YouTube', ex:'"O que acontece antes do post ir ao ar"', funcao:'Humanizar, construir confiança.' },
+  { id:21, name:'Pergunta Retórica',   fig:'Pergunta Retórica',figTipo:'Questionamento',color:'var(--orange)', desc:'Abre com uma pergunta que o público já sente mas nunca articulou.', tom:'Provocativo ou Reflexivo', canal:'Instagram, LinkedIn, TikTok', ex:'"Você já percebeu que todo mundo se comunica, mas quase ninguém é ouvido?"', funcao:'Gerar reflexão, prender atenção.' },
+  { id:22, name:'Manifesto',           fig:'Anáfora',      figTipo:'Repetição',     color:'var(--ink)',    desc:'Declaração de crença ou posicionamento. Estilo assertivo, quase poético.', tom:'Assertivo e Inspirador', canal:'Instagram, LinkedIn, YouTube', ex:'"Eu acredito que comunicação é poder. Sempre foi."', funcao:'Posicionar, inspirar, atrair tribo.' }
 ];
 
 const toms = [
@@ -623,6 +659,62 @@ function getArquetipos() {
     .map(c => c.dataset.val).join(', ');
 }
 
+// ── SALVAR CHAVE API ──
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val) return;
+  localStorage.setItem('anthropic_api_key', val);
+  document.getElementById('apiKeyInput').value = '';
+  document.getElementById('apiKeyInput').placeholder = val.slice(0, 10) + '…';
+  const st = document.getElementById('apiKeyStatus');
+  st.textContent = '✓ Salva';
+  setTimeout(() => { st.textContent = ''; }, 3000);
+}
+
+// ── CATÁLOGO DE FORMATOS PARA O PROMPT ──
+function buildFormatCatalog() {
+  const linhas = formatos.map(f =>
+    f.id + '. ' + f.name + ' | o que é: ' + f.desc + ' | tom: ' + f.tom + ' | figura associada: ' + f.fig + ' | canais: ' + f.canal + ' | função: ' + f.funcao
+  ).join('\n');
+  return '\n\nCATÁLOGO DE FORMATOS CRIATIVOS (use SOMENTE estes):\n' + linhas +
+    '\n\nREGRAS DE USO DO CATÁLOGO:\n' +
+    '1. O campo formato_criativo de cada sugestão deve ser EXATAMENTE o nome de um formato do catálogo, sem inventar nome nem adicionar complemento. Se a ideia mistura dois formatos, use Formato Combinado e cite os dois formatos do catálogo na justificativa_rank.\n' +
+    '2. As 3 sugestões devem usar 3 formatos DIFERENTES do catálogo.\n' +
+    '3. Escolha pelo encaixe com a mensagem, o público, o canal, o tom e a função (WHY). Cite na justificativa_rank por que esse formato do catálogo foi escolhido e por que não um vizinho próximo.\n' +
+    '4. Use a figura associada ao formato como uma das figuras recomendadas, salvo se o conteúdo pedir outra, e justifique.\n' +
+    '5. Se houver INSPIRAÇÃO, primeiro identifique qual formato do catálogo ela usa. Pelo menos uma sugestão deve usar esse formato, adaptado à voz do emissor.\n' +
+    '6. Sugestões fora do catálogo, como "Arrume-se comigo com narração de insight", são proibidas. O que for variação criativa vai dentro da estrutura narrativa, não no nome do formato.\n';
+}
+
+// ── INSPIRAÇÃO: imagens ──
+function fileToResizedBase64(file, maxSide) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.85).split(',')[1]);
+    };
+    img.onerror = () => reject(new Error('Não consegui ler uma das imagens.'));
+    img.src = url;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('b-inspiracao-img');
+  if (!inp) return;
+  inp.addEventListener('change', () => {
+    const n = inp.files.length;
+    document.getElementById('b-inspiracao-info').textContent =
+      n === 0 ? '' : (n > 3 ? 'Só as 3 primeiras imagens serão usadas.' : n + ' imagem(ns) anexada(s).');
+  });
+});
+
 // ── FUNÇÃO PRINCIPAL DE GERAÇÃO DE CONTEÚDO ──
 async function buildContent() {
   const emissor = document.getElementById('b-emissor').value;
@@ -640,8 +732,14 @@ async function buildContent() {
     return;
   }
 
-  const buildBtn = document.getElementById('buildBtn');
   const resultBox = document.getElementById('resultBox');
+  const apiKey = localStorage.getItem('anthropic_api_key') || '';
+  if (!apiKey) {
+    resultBox.innerHTML = '<div class="result-empty"><div class="result-empty-icon">🔑</div><div class="result-empty-txt">Configure a Chave API Anthropic no topo da página antes de gerar.</div></div>';
+    return;
+  }
+
+  const buildBtn = document.getElementById('buildBtn');
   buildBtn.disabled = true;
   resultBox.innerHTML = `
     <div class="result-loading">
@@ -650,20 +748,50 @@ async function buildContent() {
     </div>
   `;
 
-  const userPrompt = `EMISSOR: ${emissor}\nARQUÉTIPOS: ${arquetipos}\nWHAT: ${what}\nWHO: ${who}\nWHY: ${why||'não informado'}\nWHEN: ${when||'não informado'}\nWHERE: ${where||'não informado'}\nHOW: ${how||'não informado'}\nHOW LONG: ${howlong||'não informado'}`;
+  const inspTexto = document.getElementById('b-inspiracao').value.trim();
+  const inspNota = document.getElementById('b-inspiracao-nota').value.trim();
+  const inspFiles = [...document.getElementById('b-inspiracao-img').files].slice(0, 3);
+
+  let userPrompt = `EMISSOR: ${emissor}\nARQUÉTIPOS: ${arquetipos}\nWHAT: ${what}\nWHO: ${who}\nWHY: ${why||'não informado'}\nWHEN: ${when||'não informado'}\nWHERE: ${where||'não informado'}\nHOW: ${how||'não informado'}\nHOW LONG: ${howlong||'não informado'}`;
+  if (inspTexto) userPrompt += `\n\nINSPIRAÇÃO (textos de posts de referência, separados por ---):\n${inspTexto}`;
+  if (inspNota) userPrompt += `\n\nO QUE APROVEITAR E O QUE EVITAR NAS REFERÊNCIAS: ${inspNota}`;
+  if (inspFiles.length) userPrompt += `\n\nAs imagens anexadas são posts de referência. Analise estrutura, ritmo e tipo de gancho.`;
+
+  let messageContent = userPrompt;
+  if (inspFiles.length) {
+    try {
+      const imgs = await Promise.all(inspFiles.map(f => fileToResizedBase64(f, 1280)));
+      messageContent = imgs.map(d => ({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: d } }))
+        .concat([{ type: 'text', text: userPrompt }]);
+    } catch (err) {
+      resultBox.innerHTML = '<div class="result-empty"><div class="result-empty-icon">⚠️</div><div class="result-empty-txt">Erro: ' + err.message + '</div></div>';
+      buildBtn.disabled = false;
+      return;
+    }
+  }
 
   try {
-    const response = await fetch('/.netlify/functions/gemini', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents: [{ parts: [{ text: userPrompt }] }]
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        system: SYSTEM_PROMPT + buildFormatCatalog(),
+        messages: [{ role: 'user', content: messageContent }]
       })
     });
 
     const data = await response.json();
-    const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!response.ok) {
+      throw new Error((data.error && data.error.message) ? data.error.message : ('HTTP ' + response.status));
+    }
+    const raw = data.content.map(i => i.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
     renderResult(parsed.sugestoes);
@@ -682,6 +810,7 @@ function renderResult(sugestoes) {
   sugestoes.forEach(s => {
     const card = document.createElement('div');
     card.className = 'sugestao-card rank-' + s.rank;
+    card.dataset.sugestao = JSON.stringify(s);
     card.innerHTML = `
       <div class="sug-rank">✦ OPÇÃO ${s.rank}</div>
       <div class="sug-titulo">${s.titulo}</div>
@@ -700,7 +829,9 @@ function renderResult(sugestoes) {
       </div>
       <div class="sug-section"><div class="sug-section-label">Gatilho viral</div><div class="sug-section-content">${s.gatilho_viral}</div></div>
       <div class="sug-section"><div class="sug-section-label">Tempo estimado</div><div class="sug-section-content">${s.tempo_estimado}</div></div>
-      <button class="copy-btn" onclick="copyCard(this)">↗ Copiar resumo</button>`;
+      <button class="copy-btn" onclick="copyCard(this)">↗ Copiar resumo</button>
+      <button class="roteiro-btn" onclick="gerarRoteiro(this)">▶ Gerar roteiro final desta opção</button>
+      <div class="roteiro-output" style="display:none;"></div>`;
     box.appendChild(card);
   });
 }
@@ -708,11 +839,80 @@ function renderResult(sugestoes) {
 // ── COPIAR CARD ──
 function copyCard(btn) {
   const card = btn.closest('.sugestao-card');
-  const text = card.innerText.replace('↗ Copiar resumo', '').trim();
+  const text = card.innerText.replace('↗ Copiar resumo', '').replace('▶ Gerar roteiro final desta opção', '').trim();
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✓ Copiado!';
     setTimeout(() => btn.textContent = '↗ Copiar resumo', 2000);
   });
+}
+
+// ── GERAR ROTEIRO FINAL ──
+async function gerarRoteiro(btn) {
+  const card = btn.closest('.sugestao-card');
+  const output = card.querySelector('.roteiro-output');
+  const s = JSON.parse(card.dataset.sugestao);
+  const apiKey = localStorage.getItem('anthropic_api_key');
+  if (!apiKey) { alert('Configure sua chave de API primeiro.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Gerando roteiro…';
+  output.style.display = 'none';
+
+  const sysPrompt = `Você é um roteirista especialista em conteúdo para redes sociais. Dado uma sugestão de formato de comunicação, gere um roteiro de produção detalhado e pronto para execução. O roteiro deve ser prático, com falas, indicações de câmera/corte, legendas sugeridas e chamada para ação. Responda em português brasileiro.`;
+
+  const userPrompt = `Gere um roteiro de produção completo e detalhado para a seguinte sugestão de formato:
+
+TÍTULO: ${s.titulo}
+FORMATO CRIATIVO: ${s.formato_criativo}
+FORMATO BASE: ${s.formato_base}
+TOM DE VOZ: ${s.tom_de_voz}
+ARQUÉTIPO DE CENA: ${s.arquetipo_de_cena}
+GANCHO SUGERIDO: ${s.gancho_sugerido}
+
+ESTRUTURA NARRATIVA:
+- Gatilho: ${s.estrutura_narrativa.gatilho}
+- Rotina: ${s.estrutura_narrativa.rotina}
+- Recompensa: ${s.estrutura_narrativa.recompensa}
+
+GATILHO VIRAL: ${s.gatilho_viral}
+TEMPO ESTIMADO: ${s.tempo_estimado}
+
+O roteiro deve incluir:
+1. Título e resumo executivo
+2. Roteiro cena a cena (com indicações de câmera, falas, duração de cada cena)
+3. Sugestões de legenda/caption para postagem
+4. Hashtags recomendadas
+5. Call to action final`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2048,
+        system: sysPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error?.message || resp.statusText);
+    const text = data.content.map(i => i.text || '').join('');
+    output.textContent = text;
+    output.style.display = 'block';
+    btn.textContent = '↺ Regenerar roteiro';
+  } catch(e) {
+    output.textContent = 'Erro ao gerar roteiro: ' + e.message;
+    output.style.display = 'block';
+    btn.textContent = '▶ Gerar roteiro final desta opção';
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 // ── RENDERIZAÇÃO DOS PAINÉIS DE DADOS ──
@@ -870,8 +1070,12 @@ function renderFlow() {
   });
 }
 
-// Inicializa todas as renderizações ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('anthropic_api_key');
+  if (saved) {
+    document.getElementById('apiKeyInput').placeholder = saved.slice(0, 10) + '…';
+    document.getElementById('apiKeyStatus').textContent = '✓ Chave salva';
+  }
   renderFormatos();
   renderCanais();
   renderToms();
@@ -882,7 +1086,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
-
-
-
